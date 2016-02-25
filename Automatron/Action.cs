@@ -17,7 +17,8 @@ namespace spaar.Mods.Automatron
     public static Dictionary<string, Type> ActionTypes
       = new Dictionary<string, Type>()
       {
-        {"Change Toggle Value", typeof (ActionChangeToggleValue)}
+        {"Change Toggle Value", typeof(ActionChangeToggleValue)},
+        {"Change Slider Value", typeof(ActionChangeSliderValue)}
       };
 
     public static Action Deserialize(string data)

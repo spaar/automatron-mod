@@ -1,39 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
-using spaar.ModLoader;
 using spaar.ModLoader.UI;
+using Selectors;
 using UnityEngine;
 
 namespace spaar.Mods.Automatron.Actions
 {
-  public class ActionChangeToggleValue : BlockSpecificAction
+  public class ActionChangeSliderValue : BlockSpecificAction
   {
-    public override string Title { get; set; } = "Change Toggle Value";
+    public override string Title { get; set; } = "Change Slider Value";
 
-    private bool toggle = false;
-    private int selectedToggle = -1;
-    private bool changeTo = false;
+    private int selectedSlider = -1;
+    private float value = 1f;
+    private string textFieldText = "";
 
     public override void Trigger()
     {
-      if (selectedToggle == -1) return;
+      if (selectedSlider == -1) return;
 
-      var mToggle = GetBlock()?.Toggles[selectedToggle];
+      var mSlider = GetBlock()?.Sliders[selectedSlider];
 
-      if (mToggle == null)
+      if (mSlider == null)
       {
         Debug.LogWarning("Could not find block with Guid " + block + "!");
         return;
       }
 
-      if (toggle)
-      {
-        mToggle.IsActive = !mToggle.IsActive;
-      }
-      else
-      {
-        mToggle.IsActive = changeTo;
-      }
+      mSlider.Value = value;
     }
 
     protected override void DoWindow(int id)
@@ -46,34 +39,33 @@ namespace spaar.Mods.Automatron.Actions
 
       if (block != default(Guid))
       {
-        var toggles = GetBlock()?.Toggles;
+        var sliders = GetBlock()?.Sliders;
 
-        if (toggles == null)
+        if (sliders == null)
         {
           GUILayout.Label("Warning:\nBlock does not exist\n");
         }
         else
         {
-          if (toggles.Count > 0 && selectedToggle == -1)
+          if (sliders.Count > 0 && selectedSlider == -1)
           {
-            selectedToggle = 0;
+            selectedSlider = 0;
           }
-          if (toggles.Count == 0)
+          if (sliders.Count == 0)
           {
-            GUILayout.Label("Warning:\nNo toggles on this block!");
-            selectedToggle = -1;
+            GUILayout.Label("Warning:\nNo sliders on this block!");
           }
           else
           {
-            GUILayout.Label("Toggle:");
+            GUILayout.Label("Slider:");
             GUILayout.BeginHorizontal();
-            for (int i = 0; i < toggles.Count; i++)
+            for (int i = 0; i < sliders.Count; i++)
             {
-              if (GUILayout.Button(i.ToString(), i == selectedToggle
+              if (GUILayout.Button(i.ToString(), i == selectedSlider
                 ? Elements.Buttons.Default
                 : Elements.Buttons.Disabled))
               {
-                selectedToggle = i;
+                selectedSlider = i;
               }
               if (i % 3 == 0 && i != 0)
               {
@@ -86,22 +78,23 @@ namespace spaar.Mods.Automatron.Actions
         }
       }
 
-      GUILayout.Label("Mode:");
-      if (GUILayout.Button(toggle ? "Toggle" : "Set"))
+      GUILayout.Label("Change to:");
+      float newValue = GUILayout.HorizontalSlider(value, 0.0f, 5.0f);
+      if (newValue != value)
       {
-        toggle = !toggle;
+        textFieldText = newValue.ToString();
+        value = newValue;
       }
-
-      if (!toggle)
+      textFieldText = GUILayout.TextField(textFieldText);
+      if (Event.current.isKey && Event.current.keyCode == KeyCode.Return)
       {
-        GUILayout.Label("Change to:");
-        var style = changeTo
-          ? Elements.Buttons.Default
-          : Elements.Buttons.Disabled;
-
-        if (GUILayout.Button(changeTo ? "On" : "Off", style))
+        if (float.TryParse(textFieldText, out newValue))
         {
-          changeTo = !changeTo;
+          value = newValue;
+        }
+        else
+        {
+          textFieldText = value.ToString();
         }
       }
 
@@ -118,10 +111,9 @@ namespace spaar.Mods.Automatron.Actions
 
     public override string Serialize()
     {
-      var data = "Change Toggle Value?" +
-                 "{block:" + block + ",toggle:" + toggle +
-                 ",selectedToggle:" + selectedToggle + ",changeTo:" + changeTo
-                 + "}";
+      var data = "Change Slider Value?" +
+                 "{block:" + block + ",selectedSlider:" + selectedSlider +
+                 ",value:" + value + "}";
       return data;
     }
 
@@ -139,14 +131,11 @@ namespace spaar.Mods.Automatron.Actions
           case "block":
             block = new Guid(val);
             break;
-          case "toggle":
-            toggle = bool.Parse(val);
+          case "selectedSlider":
+            selectedSlider = int.Parse(val);
             break;
-          case "selectedToggle":
-            selectedToggle = int.Parse(val);
-            break;
-          case "changeTo":
-            changeTo = bool.Parse(val);
+          case "value":
+            value = float.Parse(val);
             break;
         }
       }
