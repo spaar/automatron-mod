@@ -6,33 +6,19 @@ using UnityEngine;
 
 namespace spaar.Mods.Automatron.Actions
 {
-  public class ActionChangeToggleValue : Action
+  public class ActionChangeToggleValue : BlockSpecificAction
   {
     public override string Title { get; set; } = "Change Toggle Value";
 
-    private Guid block;
     private bool toggle = false;
     private int selectedToggle = -1;
     private bool changeTo = false;
-    private bool selectingBlock = false;
-
-    private Rect selectingInfoRect = new Rect(200, 800, 500, 100);
-    private int selectingInfoId = Util.GetWindowID();
 
     public override void Trigger()
     {
-      MToggle mToggle = null;
+      if (selectedToggle == -1) return;
 
-      for (int i = 0; i < Machine.Active().BuildingBlocks.Count; i++)
-      {
-        if (Machine.Active().BuildingBlocks[i].Guid == block)
-        {
-          if (selectedToggle >= 0)
-          {
-            mToggle = Machine.Active().Blocks[i].Toggles[selectedToggle];
-          }
-        }
-      }
+      var mToggle = GetBlock()?.Toggles[selectedToggle];
 
       if (mToggle == null)
       {
@@ -50,66 +36,17 @@ namespace spaar.Mods.Automatron.Actions
       }
     }
 
-    public override void OnGUI()
-    {
-      base.OnGUI();
-
-      if (selectingBlock)
-      {
-        selectingInfoRect = GUI.Window(selectingInfoId, selectingInfoRect,
-          DoSelectingInfoWindow, "Selecting Block");
-      }
-    }
-
-    public override void Update()
-    {
-      if (selectingBlock)
-      {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-          selectingBlock = false;
-          Hide(false);
-        }
-        if (Input.GetMouseButtonDown(1)) // Right click
-        {
-          RaycastHit hit;
-          if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition)
-            , out hit))
-          {
-            var obj = hit.transform;
-            var b = obj.GetComponent<BlockBehaviour>();
-            if (b != null)
-            {
-              block = b.Guid;
-
-              selectingBlock = false;
-              Hide(false);
-            }
-          }
-        }
-      }
-    }
-
     protected override void DoWindow(int id)
     {
       GUILayout.Label("Block: " + block);
       if (GUILayout.Button("Select Block"))
       {
-        Hide(true);
-        selectingBlock = true;
+        SelectBlock();
       }
 
       if (block != default(Guid))
       {
-        List<MToggle> toggles = null;
-        foreach (var b in Machine.Active().Blocks)
-        {
-          if (b.Guid == block)
-          {
-            toggles = b.Toggles;
-            break;
-          }
-        }
+        List<MToggle> toggles = GetBlock()?.Toggles;
 
         if (toggles == null)
         {
@@ -138,7 +75,7 @@ namespace spaar.Mods.Automatron.Actions
               {
                 selectedToggle = i;
               }
-              if (i%3 == 0 && i != 0)
+              if (i % 3 == 0 && i != 0)
               {
                 GUILayout.EndHorizontal();
                 GUILayout.BeginHorizontal();
@@ -176,13 +113,6 @@ namespace spaar.Mods.Automatron.Actions
         currentCallback();
       }
 
-      GUI.DragWindow();
-    }
-
-    private void DoSelectingInfoWindow(int id)
-    {
-      GUILayout.Label("Select a block by hovering the mouse over it and " +
-                      "right-clicking.\nCancel by pressing Escape.");
       GUI.DragWindow();
     }
 
