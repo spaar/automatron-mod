@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Blocks;
 using spaar.ModLoader;
+using spaar.Mods.Automatron.Actions;
 using TheGuysYouDespise;
 using UnityEngine;
 
@@ -38,7 +39,7 @@ namespace spaar.Mods.Automatron
       .Properties(new BlockProperties().SearchKeywords(new[] { "Automatron", "Automation" })) // TODO
       .Mass(1.0f) // TODO
       .ShowCollider(false)
-      .CompoundCollider(new List<ColliderComposite>()
+      .CompoundCollider(new List<ColliderComposite>
       {
         ColliderComposite.Box(new Vector3(1, 1, 1),
           new Vector3(0, 0, 0.5f),
@@ -52,11 +53,13 @@ namespace spaar.Mods.Automatron
     public override void OnLoad()
     {
       LoadBlock(automatronBlock);
+
+      ActionPressKey.StartKeySim();
     }
 
     public override void OnUnload()
     {
-
+      ActionPressKey.StopKeySim();
     }
   }
 }

@@ -69,16 +69,17 @@
     <Compile Include="Action.cs" />
     <Compile Include="Actions\ActionChangeToggleValue.cs" />
     <Compile Include="Actions\ActionDelay.cs" />
+    <Compile Include="Actions\ActionPressKey.cs" />
     <Compile Include="Actions\BlockSpecificAction.cs" />
     <Compile Include="Actions\ActionChangeSliderValue.cs" />
     <Compile Include="AutomatronBlock.cs" />
     <Compile Include="Mod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(TargetPath)" "%25BESIEGE_LOCATION%25Besiege_Data\Mods\$(TargetName).dll"</PostBuildEvent>
+    <PostBuildEvent>copy /Y "$(TargetPath)" "%25BESIEGE_LOCATION%25Besiege_Data\Mods\$(TargetName).dll"
+copy /Y "$(SolutionDir)KeySimulator\build\libs\KeySimulator-1.0.jar" "%25BESIEGE_LOCATION%25Besiege_Data\Mods\KeySimulator.jar"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <StartAction>Program</StartAction>

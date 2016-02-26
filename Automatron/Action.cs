@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Runtime.Remoting.Messaging;
 using spaar.ModLoader;
 using spaar.ModLoader.UI;
 using spaar.Mods.Automatron.Actions;
@@ -15,11 +13,12 @@ namespace spaar.Mods.Automatron
     public delegate void HideGUICallback(bool hide);
 
     public static Dictionary<string, Type> ActionTypes
-      = new Dictionary<string, Type>()
+      = new Dictionary<string, Type>
       {
         {"Change Toggle Value", typeof(ActionChangeToggleValue)},
         {"Change Slider Value", typeof(ActionChangeSliderValue)},
-        {"Delay", typeof(ActionDelay)}
+        {"Delay", typeof(ActionDelay)},
+        {"Press Key", typeof(ActionPressKey)}
       };
 
     public static Action Deserialize(string data)

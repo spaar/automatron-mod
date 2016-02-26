@@ -232,6 +232,5 @@ namespace spaar.Mods.Automatron
     {
       hidden = hide;
     }
-
   }
 }
