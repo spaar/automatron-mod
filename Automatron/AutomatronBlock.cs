@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using spaar.ModLoader;
 using spaar.ModLoader.UI;
+using spaar.Mods.Automatron.Actions;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
@@ -43,8 +44,30 @@ namespace spaar.Mods.Automatron
     {
       if (activateKey.IsPressed)
       {
-        Debug.Log("Key pressed");
-        foreach (var action in actions)
+        StartCoroutine(TriggerActions());
+      }
+    }
+
+    protected System.Collections.IEnumerator TriggerActions()
+    {
+      foreach (var action in actions)
+      {
+        var delay = action as ActionDelay;
+        if (delay != null)
+        {
+          if (delay.secondsMode)
+          {
+            yield return new WaitForSeconds(delay.count);
+          }
+          else
+          {
+            for (int i = 0; i < delay.count; i++)
+            {
+              yield return null; // Wait a frame
+            }
+          }
+        }
+        else
         {
           action.Trigger();
         }
@@ -157,7 +180,7 @@ namespace spaar.Mods.Automatron
         {
           addingAction = false;
           var actionType = Action.ActionTypes[key];
-          var action = (Action) Activator.CreateInstance(actionType);
+          var action = (Action)Activator.CreateInstance(actionType);
           configuringAction = true;
           action.Create(ConfigureActionDone, HideGUI);
           actions.Add(action);

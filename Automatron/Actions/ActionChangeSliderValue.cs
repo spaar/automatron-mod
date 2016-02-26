@@ -12,7 +12,8 @@ namespace spaar.Mods.Automatron.Actions
 
     private int selectedSlider = -1;
     private float value = 1f;
-    private string textFieldText = "";
+    private string textFieldText = ""; // TODO: Prevent text field being empty
+                                       // at the start
 
     public override void Trigger()
     {
@@ -112,7 +113,8 @@ namespace spaar.Mods.Automatron.Actions
     public override string Serialize()
     {
       var data = "Change Slider Value?" +
-                 "{block:" + block + ",selectedSlider:" + selectedSlider +
+                 "{block:" + block +
+                 ",selectedSlider:" + selectedSlider +
                  ",value:" + value + "}";
       return data;
     }

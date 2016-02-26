@@ -18,7 +18,8 @@ namespace spaar.Mods.Automatron
       = new Dictionary<string, Type>()
       {
         {"Change Toggle Value", typeof(ActionChangeToggleValue)},
-        {"Change Slider Value", typeof(ActionChangeSliderValue)}
+        {"Change Slider Value", typeof(ActionChangeSliderValue)},
+        {"Delay", typeof(ActionDelay)}
       };
 
     public static Action Deserialize(string data)

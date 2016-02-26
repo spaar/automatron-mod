@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="Action.cs" />
     <Compile Include="Actions\ActionChangeToggleValue.cs" />
+    <Compile Include="Actions\ActionDelay.cs" />
     <Compile Include="Actions\BlockSpecificAction.cs" />
     <Compile Include="Actions\ActionChangeSliderValue.cs" />
     <Compile Include="AutomatronBlock.cs" />
