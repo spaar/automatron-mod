@@ -17,10 +17,10 @@ namespace spaar.Mods.Automatron
     private bool configuring = false;
     private bool configuringAction = false;
 
-    private Rect windowRect = new Rect(500, 200, 300, 300);
+    private Rect windowRect = new Rect(500, 200, 400, 300);
     private int windowId = Util.GetWindowID();
 
-    private Rect addActionWindowRect = new Rect(850, 200, 200, 300);
+    private Rect addActionWindowRect = new Rect(900, 200, 200, 300);
     private int addActionWindowId = Util.GetWindowID();
     private bool addingAction = false;
 
@@ -151,9 +151,18 @@ namespace spaar.Mods.Automatron
 
     private void DoWindow(int id)
     {
-      foreach (var action in actions)
+      foreach (var action in new List<Action>(actions))
       {
-        if (GUILayout.Button(action.Title))
+        GUILayout.BeginHorizontal();
+        var width = windowRect.width
+                    - Elements.Windows.Default.padding.left
+                    - Elements.Windows.Default.padding.right
+                    - Elements.Buttons.Default.margin.left
+                    - Elements.Buttons.Default.margin.right
+                    - Elements.Buttons.Default.margin.right;
+
+        var index = actions.IndexOf(action);
+        if (GUILayout.Button(action.Title, GUILayout.Width(width / 2)))
         {
           if (!configuringAction)
           {
@@ -161,6 +170,30 @@ namespace spaar.Mods.Automatron
             action.Configure(ConfigureActionDone, HideGUI);
           }
         }
+        if (GUILayout.Button("↑", index == 0 ? Elements.Buttons.Disabled
+          : Elements.Buttons.Default, GUILayout.Width(width / 6)))
+        {
+          if (index != 0)
+          {
+            actions.Remove(action);
+            actions.Insert(index - 1, action);
+          }
+        }
+        if (GUILayout.Button("↓", index == actions.Count - 1
+          ? Elements.Buttons.Disabled : Elements.Buttons.Default,
+          GUILayout.Width(width / 6)))
+        {
+          if (index != actions.Count - 1)
+          {
+            actions.Remove(action);
+            actions.Insert(index + 1, action);
+          }
+        }
+        if (GUILayout.Button("x", GUILayout.Width(width / 6)))
+        {
+          actions.Remove(action);
+        }
+        GUILayout.EndHorizontal();
       }
 
       if (GUILayout.Button("Add action"))

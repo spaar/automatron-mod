@@ -34,7 +34,7 @@ namespace spaar.Mods.Automatron
       return action;
     }
 
-    protected Rect windowRect = new Rect(850, 200, 270, 500);
+    protected Rect windowRect = new Rect(900, 200, 270, 500);
     protected int windowId = Util.GetWindowID();
     protected bool configuring = false;
     private bool hidden = false;
