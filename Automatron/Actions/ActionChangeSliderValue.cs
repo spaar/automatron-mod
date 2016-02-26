@@ -80,39 +80,41 @@ namespace spaar.Mods.Automatron.Actions
               }
             }
             GUILayout.EndHorizontal();
+
+            GUILayout.Label("Change to:");
+            float max, min;
+            if (sliders != null && selectedSlider != -1)
+            {
+              max = sliders[selectedSlider].Max;
+              min = sliders[selectedSlider].Min;
+            }
+            else
+            {
+              max = 5.0f;
+              min = 0.0f;
+            }
+            float newValue = GUILayout.HorizontalSlider(value, min, max);
+            if (newValue != value)
+            {
+              textFieldText = newValue.ToString();
+              value = newValue;
+            }
+            textFieldText = GUILayout.TextField(textFieldText);
+            if (Event.current.isKey && Event.current.keyCode == KeyCode.Return)
+            {
+              if (float.TryParse(textFieldText, out newValue))
+              {
+                value = newValue;
+              }
+              else
+              {
+                textFieldText = value.ToString();
+              }
+            }
           }
         }
-      }
 
-      GUILayout.Label("Change to:");
-      float max, min;
-      if (sliders != null && selectedSlider != -1)
-      {
-        max = sliders[selectedSlider].Max;
-        min = sliders[selectedSlider].Min;
-      }
-      else
-      {
-        max = 5.0f;
-        min = 0.0f;
-      }
-      float newValue = GUILayout.HorizontalSlider(value, min, max);
-      if (newValue != value)
-      {
-        textFieldText = newValue.ToString();
-        value = newValue;
-      }
-      textFieldText = GUILayout.TextField(textFieldText);
-      if (Event.current.isKey && Event.current.keyCode == KeyCode.Return)
-      {
-        if (float.TryParse(textFieldText, out newValue))
-        {
-          value = newValue;
-        }
-        else
-        {
-          textFieldText = value.ToString();
-        }
+
       }
 
       GUILayout.FlexibleSpace();

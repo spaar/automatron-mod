@@ -82,39 +82,41 @@ namespace spaar.Mods.Automatron.Actions
               }
             }
             GUILayout.EndHorizontal();
+
+            GUILayout.Label("Mode:");
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Toggle", toggle
+              ? Elements.Buttons.Default
+              : Elements.Buttons.Disabled))
+            {
+              toggle = true;
+            }
+            if (GUILayout.Button("Set", toggle
+              ? Elements.Buttons.Disabled
+              : Elements.Buttons.Default))
+            {
+              toggle = false;
+            }
+            GUILayout.EndHorizontal();
+
+
+            if (!toggle)
+            {
+              GUILayout.Label("Change to:");
+              var style = changeTo
+                ? Elements.Buttons.Default
+                : Elements.Buttons.Disabled;
+
+              if (GUILayout.Button(changeTo ? "On" : "Off", style))
+              {
+                changeTo = !changeTo;
+              }
+            }
           }
         }
       }
 
-      GUILayout.Label("Mode:");
-      GUILayout.BeginHorizontal();
-      if (GUILayout.Button("Toggle", toggle
-        ? Elements.Buttons.Default
-        : Elements.Buttons.Disabled))
-      {
-        toggle = true;
-      }
-      if (GUILayout.Button("Set", toggle
-        ? Elements.Buttons.Disabled
-        : Elements.Buttons.Default))
-      {
-        toggle = false;
-      }
-      GUILayout.EndHorizontal();
 
-
-      if (!toggle)
-      {
-        GUILayout.Label("Change to:");
-        var style = changeTo
-          ? Elements.Buttons.Default
-          : Elements.Buttons.Disabled;
-
-        if (GUILayout.Button(changeTo ? "On" : "Off", style))
-        {
-          changeTo = !changeTo;
-        }
-      }
 
       GUILayout.FlexibleSpace();
 
