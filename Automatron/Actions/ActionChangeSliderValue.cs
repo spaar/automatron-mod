@@ -44,10 +44,9 @@ namespace spaar.Mods.Automatron.Actions
         SelectBlock();
       }
 
+      var sliders = GetBlock()?.Sliders;
       if (block != default(Guid))
       {
-        var sliders = GetBlock()?.Sliders;
-
         if (sliders == null)
         {
           GUILayout.Label("Warning:\nBlock does not exist\n");
@@ -86,7 +85,18 @@ namespace spaar.Mods.Automatron.Actions
       }
 
       GUILayout.Label("Change to:");
-      float newValue = GUILayout.HorizontalSlider(value, 0.0f, 5.0f);
+      float max, min;
+      if (sliders != null && selectedSlider != -1)
+      {
+        max = sliders[selectedSlider].Max;
+        min = sliders[selectedSlider].Min;
+      }
+      else
+      {
+        max = 5.0f;
+        min = 0.0f;
+      }
+      float newValue = GUILayout.HorizontalSlider(value, min, max);
       if (newValue != value)
       {
         textFieldText = newValue.ToString();
