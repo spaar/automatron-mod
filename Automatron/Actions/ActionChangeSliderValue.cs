@@ -12,8 +12,14 @@ namespace spaar.Mods.Automatron.Actions
 
     private int selectedSlider = -1;
     private float value = 1f;
-    private string textFieldText = ""; // TODO: Prevent text field being empty
-                                       // at the start
+    private string textFieldText = "";
+
+    public override void Create(ConfigureDoneCallback cb, HideGUICallback hideCb)
+    {
+      base.Create(cb, hideCb);
+
+      textFieldText = value.ToString();
+    }
 
     public override void Trigger()
     {
@@ -141,6 +147,8 @@ namespace spaar.Mods.Automatron.Actions
             break;
         }
       }
+
+      textFieldText = value.ToString();
     }
   }
 }

@@ -10,8 +10,14 @@ namespace spaar.Mods.Automatron.Actions
 
     public int count = 0;
     public bool secondsMode = true;
-    private string textFieldText = ""; // TODO: Prevent text field being empty
-                                       // at the start
+    private string textFieldText = "";
+
+    public override void Create(ConfigureDoneCallback cb, HideGUICallback hideCb)
+    {
+      base.Create(cb, hideCb);
+
+      textFieldText = count.ToString();
+    }
 
     public override void Trigger()
     {
@@ -96,6 +102,8 @@ namespace spaar.Mods.Automatron.Actions
             break;
         }
       }
+
+      textFieldText = count.ToString();
     }
   }
 }
