@@ -1,4 +1,5 @@
 ﻿using System;
+using spaar.ModLoader.UI;
 using UnityEngine;
 
 namespace spaar.Mods.Automatron.Actions
@@ -8,7 +9,7 @@ namespace spaar.Mods.Automatron.Actions
     public override string Title { get; set; } = "Delay";
 
     public int count = 0;
-    public bool secondsMode = false;
+    public bool secondsMode = true;
     private string textFieldText = ""; // TODO: Prevent text field being empty
                                        // at the start
 
@@ -42,10 +43,20 @@ namespace spaar.Mods.Automatron.Actions
       }
 
       GUILayout.Label("Mode:");
-      if (GUILayout.Button(secondsMode ? "seconds" : "frames"))
+      GUILayout.BeginHorizontal();
+      if (GUILayout.Button("seconds", secondsMode
+        ? Elements.Buttons.Default
+        : Elements.Buttons.Disabled))
       {
-        secondsMode = !secondsMode;
+        secondsMode = true;
       }
+      if (GUILayout.Button("frames", secondsMode
+        ? Elements.Buttons.Disabled
+        : Elements.Buttons.Default))
+      {
+        secondsMode = false;
+      }
+      GUILayout.EndHorizontal();
 
       GUILayout.FlexibleSpace();
 

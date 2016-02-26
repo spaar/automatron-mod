@@ -87,10 +87,21 @@ namespace spaar.Mods.Automatron.Actions
       }
 
       GUILayout.Label("Mode:");
-      if (GUILayout.Button(toggle ? "Toggle" : "Set"))
+      GUILayout.BeginHorizontal();
+      if (GUILayout.Button("Toggle", toggle
+        ? Elements.Buttons.Default
+        : Elements.Buttons.Disabled))
       {
-        toggle = !toggle;
+        toggle = true;
       }
+      if (GUILayout.Button("Set", toggle
+        ? Elements.Buttons.Disabled
+        : Elements.Buttons.Default))
+      {
+        toggle = false;
+      }
+      GUILayout.EndHorizontal();
+
 
       if (!toggle)
       {
