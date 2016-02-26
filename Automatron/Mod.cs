@@ -26,23 +26,23 @@ namespace spaar.Mods.Automatron
       .BlockName("Automatron")
       .Obj(new List<Obj>
       {
-        new Obj("automatron.obj", "automatron.png",
-          new VisualOffset(new Vector3(0.5f, 0.5f, 0.5f),
-            new Vector3(0f, 0f, 0.5f),
-            new Vector3(0f, 0f, 0f)))
+        new Obj("Automatron.obj", "Automatron.png",
+          new VisualOffset(new Vector3(0.48f, 0.48f, 0.48f),
+            new Vector3(0.0f, 0.0f, 0.22f),
+            new Vector3(180f, 180f, 0f)))
       })
       .IconOffset(new Icon(
         new Vector3(1.3f, 1.3f, 1.3f),
-        new Vector3(-0.11f, -0.13f, 0f),
-        new Vector3(85f, 90f, 270f)))
+        new Vector3(-0.1f, 0f, 0f),
+        new Vector3(360f, 70f, 300f)))
       .Components(new[] { typeof(AutomatronBlock) })
       .Properties(new BlockProperties().SearchKeywords(new[] { "Automatron", "Automation" })) // TODO
-      .Mass(1.0f) // TODO
+      .Mass(1.5f) 
       .ShowCollider(false)
       .CompoundCollider(new List<ColliderComposite>
       {
-        ColliderComposite.Box(new Vector3(1, 1, 1),
-          new Vector3(0, 0, 0.5f),
+        ColliderComposite.Box(new Vector3(1.00f, 1.00f, 0.30f),
+          new Vector3(0, 0, 0.22f),
           new Vector3(0, 0, 0))
       })
       .IgnoreIntersectionForBase()

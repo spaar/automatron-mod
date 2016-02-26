@@ -23,8 +23,27 @@ namespace spaar.Mods.Automatron
 
     public static Action Deserialize(string data)
     {
-      var typeString = data.Split('?')[0];
-      var actionData = data.Split('?')[1];
+      var parts = data.Split('?');
+      var typeString = "";
+      var actionData = "";
+      if (parts.Length == 0)
+      {
+        return null;
+      }
+      else if (parts.Length == 1)
+      {
+        typeString = parts[0];
+      }
+      else if (parts.Length == 2)
+      {
+        typeString = parts[0];
+        actionData = parts[1];
+      }
+
+      if (typeString == "")
+      {
+        return null;
+      }
 
       var type = ActionTypes[typeString];
       var action = (Action)Activator.CreateInstance(type);

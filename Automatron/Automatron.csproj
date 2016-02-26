@@ -79,7 +79,9 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy /Y "$(TargetPath)" "%25BESIEGE_LOCATION%25Besiege_Data\Mods\$(TargetName).dll"
-copy /Y "$(SolutionDir)KeySimulator\build\libs\KeySimulator-1.0.jar" "%25BESIEGE_LOCATION%25Besiege_Data\Mods\KeySimulator.jar"</PostBuildEvent>
+copy /Y "$(SolutionDir)KeySimulator\build\libs\KeySimulator-1.0.jar" "%25BESIEGE_LOCATION%25Besiege_Data\Mods\KeySimulator.jar"
+copy /Y "$(SolutionDir)Resources\Automatron.obj" "%25BESIEGE_LOCATION%25Besiege_Data\Mods\Blocks\Obj\Automatron.obj"
+copy /Y "$(SolutionDir)Resources\Automatron.png" "%25BESIEGE_LOCATION%25Besiege_Data\Mods\Blocks\Textures\Automatron.png"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <StartAction>Program</StartAction>
