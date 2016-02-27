@@ -5,7 +5,6 @@ using spaar.ModLoader;
 using spaar.ModLoader.UI;
 using spaar.Mods.Automatron.Actions;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 namespace spaar.Mods.Automatron
 {
@@ -17,10 +16,11 @@ namespace spaar.Mods.Automatron
     private bool configuring = false;
     private bool configuringAction = false;
 
-    private Rect windowRect = new Rect(500, 200, 400, 300);
+    private Rect windowRect = new Rect(500, 200, 500, 300);
     private int windowId = Util.GetWindowID();
+    private Vector2 scrollPos = Vector2.zero;
 
-    private Rect addActionWindowRect = new Rect(900, 200, 200, 300);
+    private Rect addActionWindowRect = new Rect(1000, 200, 200, 300);
     private int addActionWindowId = Util.GetWindowID();
     private bool addingAction = false;
 
@@ -151,6 +151,8 @@ namespace spaar.Mods.Automatron
 
     private void DoWindow(int id)
     {
+      scrollPos = GUILayout.BeginScrollView(scrollPos);
+
       foreach (var action in new List<Action>(actions))
       {
         GUILayout.BeginHorizontal();
@@ -159,7 +161,8 @@ namespace spaar.Mods.Automatron
                     - Elements.Windows.Default.padding.right
                     - Elements.Buttons.Default.margin.left
                     - Elements.Buttons.Default.margin.right
-                    - Elements.Buttons.Default.margin.right;
+                    - Elements.Buttons.Default.margin.right
+                    - 25; // Scroll view
 
         var index = actions.IndexOf(action);
         if (GUILayout.Button(action.Title, GUILayout.Width(width / 2)))
@@ -201,6 +204,8 @@ namespace spaar.Mods.Automatron
         addingAction = true;
       }
 
+      GUILayout.EndScrollView();
+
       GUI.DragWindow();
     }
 
@@ -217,6 +222,7 @@ namespace spaar.Mods.Automatron
           configuringAction = true;
           action.Create(ConfigureActionDone, HideGUI);
           actions.Add(action);
+          scrollPos = new Vector2(float.PositiveInfinity, 0);
         }
       }
 
