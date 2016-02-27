@@ -17,6 +17,8 @@ namespace spaar.Mods.Automatron.Actions
     private static StreamWriter keySimInput = null;
 
     private string keys = "";
+    private static string heldKeys = "";
+
     // 0 = Press, 1 = Hold, 2 = Release
     private int mode = -1;
 
@@ -44,6 +46,13 @@ namespace spaar.Mods.Automatron.Actions
       keySim.Close();
     }
 
+    public override void Create(ConfigureDoneCallback cb, HideGUICallback hideCb)
+    {
+      base.Create(cb, hideCb);
+
+      Game.OnSimulationToggle += OnSimulationToggle;
+    }
+
     private void UpdateTitle()
     {
       if (keys == "")
@@ -67,12 +76,36 @@ namespace spaar.Mods.Automatron.Actions
     public override void Trigger()
     {
       var prefix = "";
-      if (mode == 0) prefix = "p:";
-      else if (mode == 1) prefix = "h:";
-      else if (mode == 2) prefix = "r:";
+      if (mode == 0)
+      {
+        prefix = "p:";
+      }
+      else if (mode == 1)
+      {
+        prefix = "h:";
+        heldKeys += keys;
+      }
+      else if (mode == 2)
+      {
+        prefix = "r:";
+        foreach (char c in keys)
+        {
+          heldKeys = heldKeys.Replace(c.ToString(), "");
+        }
+      }
 
       keySimInput.WriteLine(prefix + keys);
       keySimInput.Flush();
+    }
+
+    private void OnSimulationToggle(bool active)
+    {
+      if (!active && heldKeys != "")
+      {
+        keySimInput.WriteLine("r:" + heldKeys);
+        keySimInput.Flush();
+        heldKeys = "";
+      }
     }
 
     protected override void DoWindow(int id)
@@ -121,7 +154,7 @@ namespace spaar.Mods.Automatron.Actions
     public override string Serialize()
     {
       var data = "Press Key?"
-        + "{keys:" + keys 
+        + "{keys:" + keys
         + ",mode:" + mode + "}";
       return data;
     }
