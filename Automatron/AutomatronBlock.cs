@@ -30,7 +30,7 @@ namespace spaar.Mods.Automatron
 
     public override void SafeAwake()
     {
-      activateKey = AddKey("Activate", "activate", KeyCode.B); // TODO: default?
+      activateKey = AddKey("Activate", "activate", KeyCode.B);
       configureToggle = AddToggle("Configure", "configure", false);
       configureToggle.Toggled += Toggled;
     }
