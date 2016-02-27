@@ -46,7 +46,11 @@ namespace spaar.Mods.Automatron.Actions
 
     private void UpdateTitle()
     {
-      if (mode == 0)
+      if (keys == "")
+      {
+        Title = "Press Key";
+      }
+      else if (mode == 0)
       {
         Title = "Press " + keys;
       }

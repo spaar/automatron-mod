@@ -249,7 +249,7 @@ namespace spaar.Mods.Automatron
           configuringAction = true;
           action.Create(ConfigureActionDone, HideGUI);
           actions.Add(action);
-          scrollPos = new Vector2(float.PositiveInfinity, 0);
+          scrollPos = new Vector2(0, float.PositiveInfinity);
         }
       }
 
