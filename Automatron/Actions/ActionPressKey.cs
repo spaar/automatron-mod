@@ -111,7 +111,12 @@ namespace spaar.Mods.Automatron.Actions
     protected override void DoWindow(int id)
     {
       GUILayout.Label("Keys:");
-      keys = GUILayout.TextField(keys);
+      var newKeys = GUILayout.TextField(keys);
+      if (newKeys != keys)
+      {
+        keys = newKeys;
+        UpdateTitle();
+      }
 
       GUILayout.Label("Mode:");
       if (mode == -1) mode = 0;
@@ -143,12 +148,17 @@ namespace spaar.Mods.Automatron.Actions
 
       if (GUILayout.Button("Save"))
       {
-        configuring = false;
-        UpdateTitle();
-        currentCallback();
+        Close();
       }
 
       GUI.DragWindow();
+    }
+
+    protected override void Close()
+    {
+      configuring = false;
+      UpdateTitle();
+      currentCallback();
     }
 
     public override string Serialize()

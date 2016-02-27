@@ -189,11 +189,15 @@ namespace spaar.Mods.Automatron
         var index = actions.IndexOf(action);
         if (GUILayout.Button(action.Title, GUILayout.Width(width / 2)))
         {
-          if (!configuringAction)
+          if (configuringAction)
           {
-            configuringAction = true;
-            action.Configure(ConfigureActionDone, HideGUI);
+            foreach (var ac in actions)
+            {
+              ac.StopConfiguring();
+            }
           }
+          configuringAction = true;
+          action.Configure(ConfigureActionDone, HideGUI);
         }
         if (GUILayout.Button("↑", index == 0 ? Elements.Buttons.Disabled
           : Elements.Buttons.Default, GUILayout.Width(width / 6)))
@@ -251,6 +255,12 @@ namespace spaar.Mods.Automatron
           actions.Add(action);
           scrollPos = new Vector2(0, float.PositiveInfinity);
         }
+      }
+
+      GUILayout.FlexibleSpace();
+      if (GUILayout.Button("Close"))
+      {
+        addingAction = false;
       }
 
       GUI.DragWindow();

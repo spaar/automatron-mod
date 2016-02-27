@@ -65,6 +65,7 @@ namespace spaar.Mods.Automatron
 
     public abstract string Title { get; set; }
     protected abstract void DoWindow(int id);
+    protected abstract void Close();
 
     public abstract string Serialize();
     public abstract void Load(string data);
@@ -82,6 +83,12 @@ namespace spaar.Mods.Automatron
       configuring = true;
       currentCallback = cb;
       currentHideCallback = hideCb;
+    }
+
+    public virtual void StopConfiguring()
+    {
+      if (!configuring) return;
+      Close();
     }
 
     public virtual void Hide(bool hide)

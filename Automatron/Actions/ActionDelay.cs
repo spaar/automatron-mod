@@ -78,11 +78,16 @@ namespace spaar.Mods.Automatron.Actions
 
       if (GUILayout.Button("Save"))
       {
-        configuring = false;
-        currentCallback();
+        Close();
       }
 
       GUI.DragWindow();
+    }
+
+    protected override void Close()
+    {
+      configuring = false;
+      currentCallback();
     }
 
     public override string Serialize()
