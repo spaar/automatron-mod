@@ -44,6 +44,22 @@ namespace spaar.Mods.Automatron.Actions
       keySim.Close();
     }
 
+    private void UpdateTitle()
+    {
+      if (mode == 0)
+      {
+        Title = "Press " + keys;
+      }
+      else if (mode == 1)
+      {
+        Title = "Hold " + keys;
+      }
+      else if (mode == 2)
+      {
+        Title = "Release " + keys;
+      }
+    }
+
     public override void Trigger()
     {
       var prefix = "";
@@ -68,16 +84,19 @@ namespace spaar.Mods.Automatron.Actions
                                               : Elements.Buttons.Disabled))
       {
         mode = 0;
+        UpdateTitle();
       }
       if (GUILayout.Button("Hold", mode == 1 ? Elements.Buttons.Default
                                               : Elements.Buttons.Disabled))
       {
         mode = 1;
+        UpdateTitle();
       }
       if (GUILayout.Button("Release", mode == 2 ? Elements.Buttons.Default
                                               : Elements.Buttons.Disabled))
       {
         mode = 2;
+        UpdateTitle();
       }
       GUILayout.EndHorizontal();
 
@@ -88,6 +107,7 @@ namespace spaar.Mods.Automatron.Actions
       if (GUILayout.Button("Save"))
       {
         configuring = false;
+        UpdateTitle();
         currentCallback();
       }
 
@@ -121,6 +141,8 @@ namespace spaar.Mods.Automatron.Actions
             break;
         }
       }
+
+      UpdateTitle();
     }
   }
 }

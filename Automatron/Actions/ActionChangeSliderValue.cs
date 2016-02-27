@@ -21,6 +21,27 @@ namespace spaar.Mods.Automatron.Actions
       textFieldText = value.ToString();
     }
 
+    private void UpdateTitle()
+    {
+      var block = GetBlock();
+      if (block == null)
+      {
+        Title = "Change Slider Value";
+      }
+      else
+      {
+        if (selectedSlider == -1)
+        {
+          Title = "Change Slider Value";
+        }
+        else
+        {
+          Title = "Set slider " + selectedSlider + " of " + block.name
+            + " to " + value.ToString("F");
+        }
+      }
+    }
+
     public override void Trigger()
     {
       if (selectedSlider == -1) return;
@@ -50,16 +71,20 @@ namespace spaar.Mods.Automatron.Actions
         if (sliders == null)
         {
           GUILayout.Label("Warning:\nBlock does not exist\n");
+          UpdateTitle();
         }
         else
         {
           if (sliders.Count > 0 && selectedSlider == -1)
           {
             selectedSlider = 0;
+            UpdateTitle();
           }
           if (sliders.Count == 0)
           {
             GUILayout.Label("Warning:\nNo sliders on this block!");
+            selectedSlider = -1;
+            UpdateTitle();
           }
           else
           {
@@ -72,6 +97,7 @@ namespace spaar.Mods.Automatron.Actions
                 : Elements.Buttons.Disabled))
               {
                 selectedSlider = i;
+                UpdateTitle();
               }
               if (i % 3 == 0 && i != 0)
               {
@@ -98,6 +124,7 @@ namespace spaar.Mods.Automatron.Actions
             {
               textFieldText = newValue.ToString();
               value = newValue;
+              UpdateTitle();
             }
             textFieldText = GUILayout.TextField(textFieldText);
             if (Event.current.isKey && Event.current.keyCode == KeyCode.Return)
@@ -105,10 +132,12 @@ namespace spaar.Mods.Automatron.Actions
               if (float.TryParse(textFieldText, out newValue))
               {
                 value = newValue;
+                UpdateTitle();
               }
               else
               {
                 textFieldText = value.ToString();
+                UpdateTitle();
               }
             }
           }
@@ -161,6 +190,7 @@ namespace spaar.Mods.Automatron.Actions
       }
 
       textFieldText = value.ToString();
+      UpdateTitle();
     }
   }
 }

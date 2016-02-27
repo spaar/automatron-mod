@@ -14,6 +14,34 @@ namespace spaar.Mods.Automatron.Actions
     private int selectedToggle = -1;
     private bool changeTo = false;
 
+    private void UpdateTitle()
+    {
+      var block = GetBlock();
+      if (block == null)
+      {
+        Title = "Change Toggle Value";
+      }
+      else
+      {
+        if (selectedToggle == -1)
+        {
+          Title = "Change Toggle Value";
+        }
+        else
+        {
+          if (toggle)
+          {
+            Title = "Toggle toggle " + selectedToggle + " of " + block.name;
+          }
+          else
+          {
+            Title = " Set toggle " + selectedToggle + " of " + block.name
+              + " to " + (changeTo ? "on" : "off");
+          }
+        }
+      }
+    }
+
     public override void Trigger()
     {
       if (selectedToggle == -1) return;
@@ -51,17 +79,20 @@ namespace spaar.Mods.Automatron.Actions
         if (toggles == null)
         {
           GUILayout.Label("Warning:\nBlock does not exist\n");
+          UpdateTitle();
         }
         else
         {
           if (toggles.Count > 0 && selectedToggle == -1)
           {
             selectedToggle = 0;
+            UpdateTitle();
           }
           if (toggles.Count == 0)
           {
             GUILayout.Label("Warning:\nNo toggles on this block!");
             selectedToggle = -1;
+            UpdateTitle();
           }
           else
           {
@@ -74,6 +105,7 @@ namespace spaar.Mods.Automatron.Actions
                 : Elements.Buttons.Disabled))
               {
                 selectedToggle = i;
+                UpdateTitle();
               }
               if (i % 3 == 0 && i != 0)
               {
@@ -90,12 +122,14 @@ namespace spaar.Mods.Automatron.Actions
               : Elements.Buttons.Disabled))
             {
               toggle = true;
+              UpdateTitle();
             }
             if (GUILayout.Button("Set", toggle
               ? Elements.Buttons.Disabled
               : Elements.Buttons.Default))
             {
               toggle = false;
+              UpdateTitle();
             }
             GUILayout.EndHorizontal();
 
@@ -110,13 +144,12 @@ namespace spaar.Mods.Automatron.Actions
               if (GUILayout.Button(changeTo ? "On" : "Off", style))
               {
                 changeTo = !changeTo;
+              UpdateTitle();
               }
             }
           }
         }
       }
-
-
 
       GUILayout.FlexibleSpace();
 
@@ -163,6 +196,8 @@ namespace spaar.Mods.Automatron.Actions
             break;
         }
       }
+
+      UpdateTitle();
     }
   }
 }

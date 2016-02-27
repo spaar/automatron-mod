@@ -19,6 +19,11 @@ namespace spaar.Mods.Automatron.Actions
       textFieldText = count.ToString();
     }
 
+    private void UpdateTitle()
+    {
+      Title = "Delay " + textFieldText + (secondsMode ? " seconds" : " frames");
+    }
+
     public override void Trigger()
     {
       // Delay has to be handled as a special case in AutomatronBlock,
@@ -33,6 +38,7 @@ namespace spaar.Mods.Automatron.Actions
       {
         count = (int)Math.Round(newValue);
         textFieldText = count.ToString();
+        UpdateTitle();
       }
       textFieldText = GUILayout.TextField(textFieldText);
       if (Event.current.isKey && Event.current.keyCode == KeyCode.Return)
@@ -41,10 +47,12 @@ namespace spaar.Mods.Automatron.Actions
         if (int.TryParse(textFieldText, out newVal))
         {
           count = newVal;
+          UpdateTitle();
         }
         else
         {
           textFieldText = count.ToString();
+          UpdateTitle();
         }
       }
 
@@ -55,12 +63,14 @@ namespace spaar.Mods.Automatron.Actions
         : Elements.Buttons.Disabled))
       {
         secondsMode = true;
+        UpdateTitle();
       }
       if (GUILayout.Button("frames", secondsMode
         ? Elements.Buttons.Disabled
         : Elements.Buttons.Default))
       {
         secondsMode = false;
+        UpdateTitle();
       }
       GUILayout.EndHorizontal();
 
@@ -104,6 +114,7 @@ namespace spaar.Mods.Automatron.Actions
       }
 
       textFieldText = count.ToString();
+      UpdateTitle();
     }
   }
 }
