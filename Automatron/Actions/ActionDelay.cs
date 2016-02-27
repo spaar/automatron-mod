@@ -93,7 +93,7 @@ namespace spaar.Mods.Automatron.Actions
     public override string Serialize()
     {
       var data = "Delay?" +
-                 "{count:" + count + "}" +
+                 "{count:" + count +
                  ",secondsMode:" + secondsMode + "}";
       return data;
     }

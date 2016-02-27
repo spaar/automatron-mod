@@ -31,11 +31,11 @@ namespace spaar.Mods.Automatron.Actions
         {
           if (toggle)
           {
-            Title = "Toggle toggle " + selectedToggle + " of " + block.name;
+            Title = "Toggle toggle " + (selectedToggle + 1)+ " of " + block.name;
           }
           else
           {
-            Title = " Set toggle " + selectedToggle + " of " + block.name
+            Title = " Set toggle " + (selectedToggle + 1) + " of " + block.name
               + " to " + (changeTo ? "on" : "off");
           }
         }
@@ -100,7 +100,7 @@ namespace spaar.Mods.Automatron.Actions
             GUILayout.BeginHorizontal();
             for (int i = 0; i < toggles.Count; i++)
             {
-              if (GUILayout.Button(i.ToString(), i == selectedToggle
+              if (GUILayout.Button((i + 1).ToString(), i == selectedToggle
                 ? Elements.Buttons.Default
                 : Elements.Buttons.Disabled))
               {

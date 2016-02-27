@@ -36,7 +36,7 @@ namespace spaar.Mods.Automatron.Actions
         }
         else
         {
-          Title = "Set slider " + selectedSlider + " of " + block.name
+          Title = "Set slider " + (selectedSlider + 1) + " of " + block.name
             + " to " + value.ToString("F");
         }
       }
@@ -92,7 +92,7 @@ namespace spaar.Mods.Automatron.Actions
             GUILayout.BeginHorizontal();
             for (int i = 0; i < sliders.Count; i++)
             {
-              if (GUILayout.Button(i.ToString(), i == selectedSlider
+              if (GUILayout.Button((i + 1).ToString(), i == selectedSlider
                 ? Elements.Buttons.Default
                 : Elements.Buttons.Disabled))
               {
