@@ -38,6 +38,19 @@ namespace spaar.Mods.Automatron
     private void Toggled(bool active)
     {
       configuring = active;
+
+      if (active)
+      {
+        FindObjectOfType<KeyMapModeButton>().KeyMapOff();
+        Game.AddPiece.hudOccluding = true;
+        AddPiece.keyMapMode = true;
+      }
+      else
+      {
+        FindObjectOfType<KeyMapModeButton>().KeyMapOn();
+        Game.AddPiece.hudOccluding = false;
+        BlockMapper.Open(this);
+      }
     }
 
     protected override void OnSimulateUpdate()
@@ -79,6 +92,15 @@ namespace spaar.Mods.Automatron
       foreach (var action in actions)
       {
         action.Update();
+      }
+
+      if (configuring)
+      {
+        if (BlockMapper.CurrentInstance != null)
+        {
+          BlockMapper.Close();
+          AddPiece.keyMapMode = true;
+        }
       }
     }
 
@@ -202,6 +224,11 @@ namespace spaar.Mods.Automatron
       if (GUILayout.Button("Add action"))
       {
         addingAction = true;
+      }
+
+      if (GUILayout.Button("Close"))
+      {
+        configureToggle.IsActive = false;
       }
 
       GUILayout.EndScrollView();
