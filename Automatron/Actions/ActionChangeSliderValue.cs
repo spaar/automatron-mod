@@ -70,7 +70,7 @@ namespace spaar.Mods.Automatron.Actions
       {
         if (sliders == null)
         {
-          GUILayout.Label("Warning:\nBlock does not exist\n");
+          GUILayout.Label("Warning:\nBlock does not exist\n", WarningStyle);
           UpdateTitle();
         }
         else
@@ -82,7 +82,7 @@ namespace spaar.Mods.Automatron.Actions
           }
           if (sliders.Count == 0)
           {
-            GUILayout.Label("Warning:\nNo sliders on this block!");
+            GUILayout.Label("Warning:\nNo sliders on this block!", WarningStyle);
             selectedSlider = -1;
             UpdateTitle();
           }

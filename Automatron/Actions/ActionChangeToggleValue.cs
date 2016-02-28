@@ -78,7 +78,7 @@ namespace spaar.Mods.Automatron.Actions
 
         if (toggles == null)
         {
-          GUILayout.Label("Warning:\nBlock does not exist\n");
+          GUILayout.Label("Warning:\nBlock does not exist\n", WarningStyle);
           UpdateTitle();
         }
         else
@@ -90,7 +90,7 @@ namespace spaar.Mods.Automatron.Actions
           }
           if (toggles.Count == 0)
           {
-            GUILayout.Label("Warning:\nNo toggles on this block!");
+            GUILayout.Label("Warning:\nNo toggles on this block!", WarningStyle);
             selectedToggle = -1;
             UpdateTitle();
           }

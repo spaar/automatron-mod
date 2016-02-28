@@ -140,7 +140,7 @@ namespace spaar.Mods.Automatron.Actions
 
       if (!valid)
       {
-        GUILayout.Label("Warning: Invalid keys");
+        GUILayout.Label("Warning: Invalid keys", WarningStyle);
       }
 
       GUILayout.Label("Mode:");

@@ -70,8 +70,15 @@ namespace spaar.Mods.Automatron
     public abstract string Serialize();
     public abstract void Load(string data);
 
+    protected GUIStyle WarningStyle;
+
     public virtual void Create(ConfigureDoneCallback cb, HideGUICallback hideCb)
     {
+      WarningStyle = new GUIStyle(Elements.Labels.Default)
+      {
+        normal = { textColor = Elements.Colors.LogWarning }
+      };
+
       configuring = true;
       currentCallback = cb;
       currentHideCallback = hideCb;
