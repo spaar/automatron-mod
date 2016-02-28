@@ -15,6 +15,7 @@ namespace spaar.Mods.Automatron.Actions
 
     private static Process keySim = null;
     private static StreamWriter keySimInput = null;
+    private static StreamReader keySimOutput = null;
 
     private string keys = "";
     private static string heldKeys = "";
@@ -32,9 +33,12 @@ namespace spaar.Mods.Automatron.Actions
       keySim.StartInfo.Arguments = "-jar " + simulatorJar;
       keySim.StartInfo.UseShellExecute = false;
       keySim.StartInfo.RedirectStandardInput = true;
+      keySim.StartInfo.RedirectStandardOutput = true;
       keySim.Start();
 
       keySimInput = new StreamWriter(keySim.StandardInput.BaseStream,
+        Encoding.ASCII);
+      keySimOutput = new StreamReader(keySim.StandardOutput.BaseStream,
         Encoding.ASCII);
     }
 
@@ -108,6 +112,20 @@ namespace spaar.Mods.Automatron.Actions
       }
     }
 
+    private bool ValidateKeys()
+    {
+      if (keys == "") return true;
+
+      // Disregard possible trailing comma
+      var myKeys = keys.TrimEnd(',');
+
+      keySimInput.WriteLine("c:" + myKeys);
+      keySimInput.Flush();
+
+      var returnVal = keySimOutput.ReadLine();
+      return returnVal == "v";
+    }
+
     protected override void DoWindow(int id)
     {
       GUILayout.Label("Keys:");
@@ -116,6 +134,13 @@ namespace spaar.Mods.Automatron.Actions
       {
         keys = newKeys;
         UpdateTitle();
+      }
+
+      var valid = ValidateKeys();
+
+      if (!valid)
+      {
+        GUILayout.Label("Warning: Invalid keys");
       }
 
       GUILayout.Label("Mode:");
