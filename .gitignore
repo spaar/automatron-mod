@@ -213,26 +213,26 @@ KeySimulator/bin/
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # User-specific stuff:
-.idea/workspace.xml
-.idea/tasks.xml
-.idea/dictionaries
-.idea/vcs.xml
-.idea/jsLibraryMappings.xml
+KeySimulator/.idea/workspace.xml
+KeySimulator/.idea/tasks.xml
+KeySimulator/.idea/dictionaries
+KeySimulator/.idea/vcs.xml
+KeySimulator/.idea/jsLibraryMappings.xml
 
 # Sensitive or high-churn files:
-.idea/dataSources.ids
-.idea/dataSources.xml
-.idea/dataSources.local.xml
-.idea/sqlDataSources.xml
-.idea/dynamic.xml
-.idea/uiDesigner.xml
+KeySimulator/.idea/dataSources.ids
+KeySimulator/.idea/dataSources.xml
+KeySimulator/.idea/dataSources.local.xml
+KeySimulator/.idea/sqlDataSources.xml
+KeySimulator/.idea/dynamic.xml
+KeySimulator/.idea/uiDesigner.xml
 
 # Gradle:
-.idea/gradle.xml
-.idea/libraries
+KeySimulator/.idea/gradle.xml
+KeySimulator/.idea/libraries
 
 # Mongo Explorer plugin:
-.idea/mongoSettings.xml
+KeySimulator/.idea/mongoSettings.xml
 
 ## File-based project format:
 *.iws
@@ -240,16 +240,16 @@ KeySimulator/bin/
 ## Plugin-specific files:
 
 # IntelliJ
-/out/
+KeySimulator/out/
 
 # mpeltonen/sbt-idea plugin
-.idea_modules/
+KeySimulator/.idea_modules/
 
 # JIRA plugin
-atlassian-ide-plugin.xml
+KeySimulator/atlassian-ide-plugin.xml
 
 # Crashlytics plugin (for Android Studio and IntelliJ)
-com_crashlytics_export_strings.xml
-crashlytics.properties
-crashlytics-build.properties
-fabric.properties
+KeySimulator/com_crashlytics_export_strings.xml
+KeySimulator/crashlytics.properties
+KeySimulator/crashlytics-build.properties
+KeySimulator/fabric.properties
