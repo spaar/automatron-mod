@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using spaar.ModLoader;
 using spaar.ModLoader.UI;
 using spaar.Mods.Automatron.Actions;
@@ -28,11 +27,128 @@ namespace spaar.Mods.Automatron
 
     private List<Action> actions = new List<Action>();
 
+    private delegate System.Collections.IEnumerator RotationFunction(Gear gear);
+    private class Gear
+    {
+      public Transform vis;
+      public Coroutine coroutine;
+      public RotationFunction function;
+    }
+
+    private Mesh gearMesh;
+    private List<Gear> gears;
+
+    private const float rotationSpeed = 100f;
+
     public override void SafeAwake()
     {
       activateKey = AddKey("Activate", "activate", KeyCode.B);
       configureToggle = AddToggle("Configure", "configure", false);
       configureToggle.Toggled += Toggled;
+    }
+
+    protected override void OnSimulateStart()
+    {
+      foreach (Transform child in transform)
+      {
+        if (child.name == "Gear")
+        {
+          Destroy(child.gameObject);
+        }
+      }
+
+      BlockPlaced();
+    }
+
+    protected override void BlockPlaced()
+    {
+      gearMesh = resources["Automatron-Gear.obj"].mesh;
+
+      const float offset = 0.35f;
+      gears = new List<Gear>()
+      {
+        new Gear {
+          vis = MakeGearVis(new Vector3(offset, 0, 0),
+                  new Vector3(0, 0, 0),
+                  new Vector3(0.5f, 0.5f, 0.5f)),
+          function = RotateAroundX
+        },
+        new Gear {
+          vis = MakeGearVis(new Vector3(-offset, 0, 0),
+                  new Vector3(0, 0, 0),
+                  new Vector3(0.5f, 0.5f, 0.5f)),
+          function = RotateAroundX
+        },
+        new Gear {
+          vis = MakeGearVis(new Vector3(0, offset, 0),
+                  new Vector3(0, 0, 90),
+                  new Vector3(0.5f, 0.5f, 0.5f)),
+          function = RotateAroundX
+        },
+        new Gear {
+          vis = MakeGearVis(new Vector3(0, -offset, 0),
+                  new Vector3(0, 0, 90),
+                  new Vector3(0.5f, 0.5f, 0.5f)),
+          function = RotateAroundX
+        },
+        new Gear {
+          vis = MakeGearVis(new Vector3(0, 0, offset),
+                  new Vector3(0, 90, 0),
+                  new Vector3(0.5f, 0.5f, 0.5f)),
+          function = RotateAroundX
+        },
+        new Gear {
+          vis = MakeGearVis(new Vector3(0, 0, -offset),
+                  new Vector3(0, 90, 0),
+                  new Vector3(0.5f, 0.5f, 0.5f)),
+          function = RotateAroundX
+        }
+      };
+    }
+
+    private System.Collections.IEnumerator RotateAroundX(Gear gear)
+    {
+      while (true)
+      {
+        gear.vis.Rotate(rotationSpeed * Time.deltaTime, 0, 0, Space.Self);
+        yield return null;
+      }
+    }
+
+    private System.Collections.IEnumerator RotateAroundY(Gear gear)
+    {
+      while (true)
+      {
+        gear.vis.Rotate(0, rotationSpeed * Time.deltaTime, 0, Space.Self);
+        yield return null;
+      }
+    }
+
+    private System.Collections.IEnumerator RotateAroundZ(Gear gear)
+    {
+      while (true)
+      {
+        gear.vis.Rotate(0, 0, rotationSpeed * Time.deltaTime, Space.Self);
+        yield return null;
+      }
+    }
+
+    private Transform MakeGearVis(Vector3 pos, Vector3 rot, Vector3 scale)
+    {
+      var go = new GameObject("Gear");
+      var t = go.transform;
+      t.parent = transform;
+      t.localPosition = pos + Vector3.forward * 0.5f;
+      t.localRotation = Quaternion.Euler(rot);
+      t.localScale = scale;
+
+      var meshFilter = go.AddComponent<MeshFilter>();
+      meshFilter.mesh = gearMesh;
+
+      var meshRenderer = go.AddComponent<MeshRenderer>();
+      meshRenderer.material = GetComponentInChildren<Renderer>().material;
+
+      return t;
     }
 
     private void Toggled(bool active)
@@ -63,6 +179,11 @@ namespace spaar.Mods.Automatron
 
     protected System.Collections.IEnumerator TriggerActions()
     {
+      foreach (var gear in gears)
+      {
+        gear.coroutine = StartCoroutine(gear.function(gear));
+      }
+
       foreach (var action in actions)
       {
         var delay = action as ActionDelay;
@@ -85,6 +206,12 @@ namespace spaar.Mods.Automatron
           action.Trigger();
         }
       }
+
+      foreach (var gear in gears)
+      {
+        StopCoroutine(gear.coroutine);
+        gear.coroutine = null;
+      }
     }
 
     protected override void BuildingUpdate()
@@ -104,7 +231,7 @@ namespace spaar.Mods.Automatron
       }
     }
 
-    public override void OnLoad(BlockXDataHolder stream)
+    public override void OnLoad(XDataHolder stream)
     {
       LoadMapperValues(stream);
 
@@ -114,7 +241,7 @@ namespace spaar.Mods.Automatron
       }
     }
 
-    public override void OnSave(BlockXDataHolder stream)
+    public override void OnSave(XDataHolder stream)
     {
       SaveMapperValues(stream);
 

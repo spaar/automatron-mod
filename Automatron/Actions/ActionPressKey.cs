@@ -189,7 +189,7 @@ namespace spaar.Mods.Automatron.Actions
     public override string Serialize()
     {
       var data = "Press Key?"
-        + "{keys:" + keys
+        + "{keys:" + keys.Replace(',', '_')
         + ",mode:" + mode + "}";
       return data;
     }
@@ -206,7 +206,7 @@ namespace spaar.Mods.Automatron.Actions
         switch (key)
         {
           case "keys":
-            keys = val;
+            keys = val.Replace('_', ',');
             break;
           case "mode":
             mode = int.Parse(val);

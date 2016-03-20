@@ -16,7 +16,7 @@ namespace spaar.Mods.Automatron
 
     public override Version Version { get; } = new Version(1, 0, 0);
     public override string VersionExtra { get; } = "";
-    public override string BesiegeVersion { get; } = "v0.25";
+    public override string BesiegeVersion { get; } = "v0.27";
 
     public override bool CanBeUnloaded { get; } = false;
     public override bool Preload { get; } = false;
@@ -28,7 +28,7 @@ namespace spaar.Mods.Automatron
       {
         new Obj("Automatron.obj", "Automatron.png",
           new VisualOffset(new Vector3(0.48f, 0.48f, 0.48f),
-            new Vector3(0.0f, 0.0f, 0.22f),
+            new Vector3(0.0f, 0.0f, 0.5f),
             new Vector3(180f, 180f, 0f)))
       })
       .IconOffset(new Icon(
@@ -41,12 +41,15 @@ namespace spaar.Mods.Automatron
       .ShowCollider(false)
       .CompoundCollider(new List<ColliderComposite>
       {
-        ColliderComposite.Box(new Vector3(1.00f, 1.00f, 0.30f),
-          new Vector3(0, 0, 0.22f),
+        ColliderComposite.Box(new Vector3(1.00f, 1.00f, 1.00f),
+          new Vector3(0, 0, 0.5f),
           new Vector3(0, 0, 0))
       })
       .IgnoreIntersectionForBase()
-      .NeededResources(new List<NeededResource>())
+      .NeededResources(new List<NeededResource>()
+      {
+        new NeededResource(ResourceType.Mesh, "Automatron-Gear.obj")
+      })
       .AddingPoints(new List<AddingPoint>());
 
 
