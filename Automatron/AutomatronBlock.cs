@@ -26,6 +26,7 @@ namespace spaar.Mods.Automatron
     private bool hidden = false;
 
     private List<Action> actions = new List<Action>();
+    private bool running = false;
 
     private delegate System.Collections.IEnumerator RotationFunction(Gear gear);
     private class Gear
@@ -179,6 +180,13 @@ namespace spaar.Mods.Automatron
 
     protected System.Collections.IEnumerator TriggerActions()
     {
+      if (running)
+      {
+        yield break;
+      }
+
+      running = true;
+
       foreach (var gear in gears)
       {
         gear.coroutine = StartCoroutine(gear.function(gear));
@@ -212,6 +220,8 @@ namespace spaar.Mods.Automatron
         StopCoroutine(gear.coroutine);
         gear.coroutine = null;
       }
+
+      running = false;
     }
 
     protected override void BuildingUpdate()
