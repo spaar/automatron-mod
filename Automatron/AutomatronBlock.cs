@@ -290,6 +290,7 @@ namespace spaar.Mods.Automatron
     private void OnGUI()
     {
       if (!configuring) return;
+      if (AddPiece.isSimulating) return;
 
       GUI.skin = ModGUI.Skin;
 
