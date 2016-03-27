@@ -37,6 +37,7 @@ namespace spaar.Mods.Automatron
     }
 
     private Mesh gearMesh;
+    private Material gearMaterial;
     private List<Gear> gears;
 
     private const float rotationSpeed = 100f;
@@ -63,46 +64,50 @@ namespace spaar.Mods.Automatron
 
     protected override void BlockPlaced()
     {
-      gearMesh = resources["Automatron-Gear.obj"].mesh;
+      var gearVis = Game.MachineObjectTracker
+        .AllPrefabs[(int)Prefab.CogMediumPowered].transform.FindChild("Vis");
+      gearMesh = gearVis.GetComponent<MeshFilter>().mesh;
+      gearMaterial = gearVis.GetComponent<MeshRenderer>().material;
 
       const float offset = 0.35f;
+      var scale = new Vector3(0.20f, 0.20f, 0.20f);
       gears = new List<Gear>()
       {
         new Gear {
           vis = MakeGearVis(new Vector3(offset, 0, 0),
-                  new Vector3(0, 0, 0),
-                  new Vector3(0.5f, 0.5f, 0.5f)),
-          function = RotateAroundX
+                  new Vector3(180, 90, 0),
+                  scale),
+          function = RotateAroundZ
         },
         new Gear {
           vis = MakeGearVis(new Vector3(-offset, 0, 0),
-                  new Vector3(0, 0, 0),
-                  new Vector3(0.5f, 0.5f, 0.5f)),
-          function = RotateAroundX
+                  new Vector3(0, 90, 0),
+                  scale),
+          function = RotateAroundZ
         },
         new Gear {
           vis = MakeGearVis(new Vector3(0, offset, 0),
-                  new Vector3(0, 0, 90),
-                  new Vector3(0.5f, 0.5f, 0.5f)),
-          function = RotateAroundX
+                  new Vector3(90, 0, 0),
+                  scale),
+          function = RotateAroundZ
         },
         new Gear {
           vis = MakeGearVis(new Vector3(0, -offset, 0),
-                  new Vector3(0, 0, 90),
-                  new Vector3(0.5f, 0.5f, 0.5f)),
-          function = RotateAroundX
+                  new Vector3(270, 0, 0),
+                  scale),
+          function = RotateAroundZ
         },
         new Gear {
           vis = MakeGearVis(new Vector3(0, 0, offset),
-                  new Vector3(0, 90, 0),
-                  new Vector3(0.5f, 0.5f, 0.5f)),
-          function = RotateAroundX
+                  new Vector3(180, 0, 0),
+                  scale),
+          function = RotateAroundZ
         },
         new Gear {
           vis = MakeGearVis(new Vector3(0, 0, -offset),
-                  new Vector3(0, 90, 0),
-                  new Vector3(0.5f, 0.5f, 0.5f)),
-          function = RotateAroundX
+                  new Vector3(0, 0, 0),
+                  scale),
+          function = RotateAroundZ
         }
       };
     }
@@ -147,7 +152,7 @@ namespace spaar.Mods.Automatron
       meshFilter.mesh = gearMesh;
 
       var meshRenderer = go.AddComponent<MeshRenderer>();
-      meshRenderer.material = GetComponentInChildren<Renderer>().material;
+      meshRenderer.material = gearMaterial;
 
       return t;
     }

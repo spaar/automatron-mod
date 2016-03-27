@@ -37,7 +37,7 @@ namespace spaar.Mods.Automatron
         new Vector3(360f, 70f, 300f)))
       .Components(new[] { typeof(AutomatronBlock) })
       .Properties(new BlockProperties().SearchKeywords(new[] { "Automatron", "Automation" })) // TODO
-      .Mass(1.5f) 
+      .Mass(1.5f)
       .ShowCollider(false)
       .CompoundCollider(new List<ColliderComposite>
       {
@@ -46,10 +46,7 @@ namespace spaar.Mods.Automatron
           new Vector3(0, 0, 0))
       })
       .IgnoreIntersectionForBase()
-      .NeededResources(new List<NeededResource>()
-      {
-        new NeededResource(ResourceType.Mesh, "Automatron-Gear.obj")
-      })
+      .NeededResources(new List<NeededResource>())
       .AddingPoints(new List<AddingPoint>());
 
 
