@@ -36,7 +36,7 @@ namespace spaar.Mods.Automatron
         new Vector3(-0.1f, 0f, 0f),
         new Vector3(360f, 70f, 300f)))
       .Components(new[] { typeof(AutomatronBlock) })
-      .Properties(new BlockProperties().SearchKeywords(new[] { "Automatron", "Automation" })) // TODO
+      .Properties(new BlockProperties().SearchKeywords(new[] { "Automatron", "Automation" }))
       .Mass(1.5f)
       .ShowCollider(false)
       .CompoundCollider(new List<ColliderComposite>

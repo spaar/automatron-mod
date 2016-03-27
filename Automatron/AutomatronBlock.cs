@@ -282,6 +282,7 @@ namespace spaar.Mods.Automatron
       var serializedActions = data.Split(';');
       foreach (var serializedAction in serializedActions)
       {
+        if (serializedAction == "") continue;
         actions.Add(Action.Deserialize(serializedAction));
       }
     }
