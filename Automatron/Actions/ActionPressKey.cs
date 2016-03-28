@@ -99,6 +99,8 @@ namespace spaar.Mods.Automatron.Actions
 
     public override void Trigger()
     {
+      if (keys == "") return;
+
       var prefix = "";
       if (mode == 0)
       {
