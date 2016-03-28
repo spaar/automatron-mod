@@ -196,13 +196,13 @@ namespace spaar.Mods.Automatron.Actions
         UpdateTitle();
       }
       if (GUILayout.Button("Hold", mode == 1 ? Elements.Buttons.Default
-                                              : Elements.Buttons.Disabled))
+                                             : Elements.Buttons.Disabled))
       {
         mode = 1;
         UpdateTitle();
       }
       if (GUILayout.Button("Release", mode == 2 ? Elements.Buttons.Default
-                                              : Elements.Buttons.Disabled))
+                                                : Elements.Buttons.Disabled))
       {
         mode = 2;
         UpdateTitle();
@@ -238,6 +238,8 @@ namespace spaar.Mods.Automatron.Actions
 
     public override void Load(string data)
     {
+      base.Load(data);
+
       data = data.Replace("{", "").Replace("}", "");
       var pairs = data.Split(',');
       foreach (var pair in pairs)

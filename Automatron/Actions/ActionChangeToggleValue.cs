@@ -178,6 +178,8 @@ namespace spaar.Mods.Automatron.Actions
 
     public override void Load(string data)
     {
+      base.Load(data);
+
       data = data.Replace("{", "").Replace("}", "");
       var pairs = data.Split(',');
       foreach (var pair in pairs)
