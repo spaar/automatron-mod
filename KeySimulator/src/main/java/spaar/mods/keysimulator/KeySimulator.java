@@ -90,10 +90,7 @@ public class KeySimulator {
         }
       }
     } catch (Exception e) {
-      e.printStackTrace();
-      while (true) {
-        ;
-      }
+      main(args);
     }
   }
 
