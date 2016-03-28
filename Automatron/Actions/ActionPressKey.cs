@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Linq;
 using spaar.ModLoader;
 using spaar.ModLoader.UI;
 using UnityEngine;
@@ -17,6 +18,9 @@ namespace spaar.Mods.Automatron.Actions
     private static StreamWriter keySimInput = null;
     private static StreamReader keySimOutput = null;
 
+    private static bool hasError = false;
+    private static string error = "";
+
     private string keys = "";
     private static string heldKeys = "";
 
@@ -25,21 +29,37 @@ namespace spaar.Mods.Automatron.Actions
 
     public static void StartKeySim()
     {
-      var javaPath = Environment.GetEnvironmentVariable("JAVA_HOME")
-                     + "\\bin\\javaw.exe";
-      var simulatorJar = Application.dataPath + "/Mods/KeySimulator.jar";
-      keySim = new Process();
-      keySim.StartInfo.FileName = javaPath;
-      keySim.StartInfo.Arguments = "-jar " + simulatorJar;
-      keySim.StartInfo.UseShellExecute = false;
-      keySim.StartInfo.RedirectStandardInput = true;
-      keySim.StartInfo.RedirectStandardOutput = true;
-      keySim.Start();
+      try
+      {
+        var simulatorJar = Application.dataPath + "/Mods/KeySimulator.jar";
+        keySim = new Process();
+        keySim.StartInfo.FileName = "javaw";
+        keySim.StartInfo.Arguments = "-jar " + simulatorJar;
+        keySim.StartInfo.UseShellExecute = false;
+        keySim.StartInfo.RedirectStandardInput = true;
+        keySim.StartInfo.RedirectStandardOutput = true;
+        keySim.Start();
+        keySimInput = new StreamWriter(keySim.StandardInput.BaseStream,
+          Encoding.ASCII);
+        keySimOutput = new StreamReader(keySim.StandardOutput.BaseStream,
+          Encoding.ASCII);
 
-      keySimInput = new StreamWriter(keySim.StandardInput.BaseStream,
-        Encoding.ASCII);
-      keySimOutput = new StreamReader(keySim.StandardOutput.BaseStream,
-        Encoding.ASCII);
+        keySimInput.WriteLine("init");
+        keySimInput.Flush();
+
+        if (keySimOutput.ReadLine() != "ok")
+        {
+          throw new Exception(
+            "KeySimulator did not respond with proper ok message.");
+        }
+      }
+      catch (Exception e)
+      {
+        hasError = true;
+        error = "Could not start Key Simulator.\nMake sure it and Java are " +
+          "installed correctly.\nFurther information is printed in the console.";
+        Debug.LogException(e);
+      }
     }
 
     public static void StopKeySim()
@@ -98,13 +118,16 @@ namespace spaar.Mods.Automatron.Actions
         }
       }
 
-      keySimInput.WriteLine(prefix + keys);
-      keySimInput.Flush();
+      if (!hasError)
+      {
+        keySimInput.WriteLine(prefix + keys);
+        keySimInput.Flush();
+      }
     }
 
     private void OnSimulationToggle(bool active)
     {
-      if (!active && heldKeys != "")
+      if (!active && heldKeys != "" && !hasError)
       {
         keySimInput.WriteLine("r:" + heldKeys);
         keySimInput.Flush();
@@ -114,7 +137,7 @@ namespace spaar.Mods.Automatron.Actions
 
     private bool ValidateKeys()
     {
-      if (keys == "") return true;
+      if (keys == "" || hasError) return true;
 
       // Disregard possible trailing comma
       var myKeys = keys.TrimEnd(',');
@@ -128,6 +151,11 @@ namespace spaar.Mods.Automatron.Actions
 
     protected override void DoWindow(int id)
     {
+      if (hasError)
+      {
+        GUILayout.Label("Warning: " + error, WarningStyle);
+      }
+
       GUILayout.Label("Keys:");
       var newKeys = GUILayout.TextField(keys);
       if (newKeys != keys)

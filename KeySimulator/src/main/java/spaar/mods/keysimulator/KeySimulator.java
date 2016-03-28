@@ -47,6 +47,12 @@ public class KeySimulator {
 
         String input = in.nextLine();
 
+        if (input.equals("init")) {
+          out.println("ok");
+          out.flush();
+          continue;
+        }
+
         String mode = input.split(":")[0];
         String[] keys = input.split(":")[1].split(",");
 
