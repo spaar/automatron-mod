@@ -161,15 +161,17 @@ namespace spaar.Mods.Automatron
     {
       configuring = active;
 
+      var keyMapModeButton = FindObjectOfType<KeyMapModeButton>();
+
       if (active)
       {
-        FindObjectOfType<KeyMapModeButton>().KeyMapOff();
+        keyMapModeButton?.KeyMapOff();
         Game.AddPiece.hudOccluding = true;
         AddPiece.keyMapMode = true;
       }
       else
       {
-        FindObjectOfType<KeyMapModeButton>().KeyMapOn();
+        keyMapModeButton?.KeyMapOn();
         Game.AddPiece.hudOccluding = false;
         BlockMapper.Open(this);
       }
