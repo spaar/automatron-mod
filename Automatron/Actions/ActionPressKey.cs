@@ -7,6 +7,7 @@ using spaar.ModLoader;
 using spaar.ModLoader.UI;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
+using System.Collections.Generic;
 
 namespace spaar.Mods.Automatron.Actions
 {
@@ -22,7 +23,7 @@ namespace spaar.Mods.Automatron.Actions
     private static string error = "";
 
     private string keys = "";
-    private static string heldKeys = "";
+    private static HashSet<string> heldKeys = new HashSet<string>();
 
     // 0 = Press, 1 = Hold, 2 = Release
     private int mode = -1;
@@ -101,6 +102,8 @@ namespace spaar.Mods.Automatron.Actions
     {
       if (keys == "") return;
 
+      var myKeys = keys.TrimEnd(',');
+
       var prefix = "";
       if (mode == 0)
       {
@@ -109,14 +112,19 @@ namespace spaar.Mods.Automatron.Actions
       else if (mode == 1)
       {
         prefix = "h:";
-        heldKeys += keys;
+        var splitKeys = myKeys.Split(',');
+        foreach (var c in splitKeys)
+        {
+          heldKeys.Add(c);
+        }
       }
       else if (mode == 2)
       {
         prefix = "r:";
-        foreach (char c in keys)
+        var splitKeys = myKeys.Split(',');
+        foreach (var c in splitKeys)
         {
-          heldKeys = heldKeys.Replace(c.ToString(), "");
+          heldKeys.Remove(c);
         }
       }
 
@@ -129,11 +137,15 @@ namespace spaar.Mods.Automatron.Actions
 
     private void OnSimulationToggle(bool active)
     {
-      if (!active && heldKeys != "" && !hasError)
+      if (!active && heldKeys.Count > 0 && !hasError)
       {
-        keySimInput.WriteLine("r:" + heldKeys);
-        keySimInput.Flush();
-        heldKeys = "";
+        foreach (var key in new HashSet<string>(heldKeys))
+        {
+          Debug.Log("Releasing key: " + key);
+          keySimInput.WriteLine("r:" + key);
+          keySimInput.Flush();
+          heldKeys.Remove(key);
+        }
       }
     }
 
@@ -245,6 +257,7 @@ namespace spaar.Mods.Automatron.Actions
       }
 
       UpdateTitle();
+      Game.OnSimulationToggle += OnSimulationToggle;
     }
   }
 }
