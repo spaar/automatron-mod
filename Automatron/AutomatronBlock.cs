@@ -15,11 +15,11 @@ namespace spaar.Mods.Automatron
     private bool configuring = false;
     private bool configuringAction = false;
 
-    private Rect windowRect = new Rect(500, 200, 500, 300);
+    private Rect windowRect = new Rect(500, 200, 700, 500);
     private int windowId = Util.GetWindowID();
     private Vector2 scrollPos = Vector2.zero;
 
-    private Rect addActionWindowRect = new Rect(1000, 200, 200, 300);
+    private Rect addActionWindowRect = new Rect(1200, 200, 200, 300);
     private int addActionWindowId = Util.GetWindowID();
     private bool addingAction = false;
 
@@ -333,7 +333,7 @@ namespace spaar.Mods.Automatron
                     - 25; // Scroll view
 
         var index = actions.IndexOf(action);
-        if (GUILayout.Button(action.Title, GUILayout.Width(width / 2)))
+        if (GUILayout.Button(action.Title, GUILayout.Width((width / 3) * 2)))
         {
           if (configuringAction)
           {
@@ -346,7 +346,7 @@ namespace spaar.Mods.Automatron
           action.Configure(ConfigureActionDone, HideGUI);
         }
         if (GUILayout.Button("↑", index == 0 ? Elements.Buttons.Disabled
-          : Elements.Buttons.Default, GUILayout.Width(width / 6)))
+          : Elements.Buttons.Default, GUILayout.Width(width / 9)))
         {
           if (index != 0)
           {
@@ -356,7 +356,7 @@ namespace spaar.Mods.Automatron
         }
         if (GUILayout.Button("↓", index == actions.Count - 1
           ? Elements.Buttons.Disabled : Elements.Buttons.Default,
-          GUILayout.Width(width / 6)))
+          GUILayout.Width(width / 9)))
         {
           if (index != actions.Count - 1)
           {
@@ -364,7 +364,7 @@ namespace spaar.Mods.Automatron
             actions.Insert(index + 1, action);
           }
         }
-        if (GUILayout.Button("x", GUILayout.Width(width / 6)))
+        if (GUILayout.Button("x", GUILayout.Width(width / 9)))
         {
           actions.Remove(action);
         }

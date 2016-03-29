@@ -52,7 +52,7 @@ namespace spaar.Mods.Automatron
       return action;
     }
 
-    protected Rect windowRect = new Rect(1000, 200, 270, 500);
+    protected Rect windowRect = new Rect(1200, 200, 300, 500);
     protected int windowId = Util.GetWindowID();
     protected bool configuring = false;
     private bool hidden = false;
