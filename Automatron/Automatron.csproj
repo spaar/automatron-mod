@@ -9,9 +9,14 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>spaar.Mods.Automatron</RootNamespace>
     <AssemblyName>Automatron</AssemblyName>
+<<<<<<< HEAD
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+=======
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+>>>>>>> 378797947c87c2c84d158c38caced30455c8e6da
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,7 +26,10 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+<<<<<<< HEAD
     <Prefer32Bit>false</Prefer32Bit>
+=======
+>>>>>>> 378797947c87c2c84d158c38caced30455c8e6da
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,7 +38,10 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+<<<<<<< HEAD
     <Prefer32Bit>false</Prefer32Bit>
+=======
+>>>>>>> 378797947c87c2c84d158c38caced30455c8e6da
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
