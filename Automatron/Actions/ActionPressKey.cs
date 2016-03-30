@@ -35,7 +35,11 @@ namespace spaar.Mods.Automatron.Actions
         var simulatorJar = Application.dataPath + "/Mods/KeySimulator.jar";
         keySim = new Process();
         keySim.StartInfo.FileName = "javaw";
+<<<<<<< HEAD
+        keySim.StartInfo.Arguments = "-jar " + '"' + simulatorJar + '"';
+=======
         keySim.StartInfo.Arguments = "-jar " + simulatorJar;
+>>>>>>> 378797947c87c2c84d158c38caced30455c8e6da
         keySim.StartInfo.UseShellExecute = false;
         keySim.StartInfo.RedirectStandardInput = true;
         keySim.StartInfo.RedirectStandardOutput = true;
