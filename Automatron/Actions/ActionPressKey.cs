@@ -35,7 +35,7 @@ namespace spaar.Mods.Automatron.Actions
         var simulatorJar = Application.dataPath + "/Mods/KeySimulator.jar";
         keySim = new Process();
         keySim.StartInfo.FileName = "javaw";
-        keySim.StartInfo.Arguments = "-jar " + simulatorJar;
+        keySim.StartInfo.Arguments = "-jar \"" + simulatorJar + "\"";
         keySim.StartInfo.UseShellExecute = false;
         keySim.StartInfo.RedirectStandardInput = true;
         keySim.StartInfo.RedirectStandardOutput = true;
@@ -141,7 +141,6 @@ namespace spaar.Mods.Automatron.Actions
       {
         foreach (var key in new HashSet<string>(heldKeys))
         {
-          Debug.Log("Releasing key: " + key);
           keySimInput.WriteLine("r:" + key);
           keySimInput.Flush();
           heldKeys.Remove(key);
