@@ -35,6 +35,14 @@ The available types and their options are as follows:
 	- Slider: Which slider of the block you want to change. There will be one button for each available slider, the order is the same as in the block mapper.
 	- Change to: What value the slider should be set to. The slider itself has the same limits that apply in the normal block mapper but the text field can be used to enter any value.
 
+- Change Limit Value
+  Description: Changes the value of a limit of a block when activated.
+  Options:
+    - Block: The block whose slider you want to change. Use the "Select Block" button to select one, as described in the section "Selecting Blocks".
+	- Limit: Which limit of the block you want to change. There will be one button for each available limit, the order is the same as in the block mapper.
+	- Minimum: What value the minimum limit should be set to. The slider itself has the same range as in the normal block mapper but the text field can be used to enter any value.
+	- Maximum: What value the maximum limit should be set to. The slider itself has the same range as in the normal block mapper but the text field can be used to enter any value.
+	
 - Delay  
   Description: Delays activation of the next action by the specified amount.  
   Options:
