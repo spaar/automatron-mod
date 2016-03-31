@@ -17,6 +17,7 @@ namespace spaar.Mods.Automatron
       {
         {"Change Toggle Value", typeof(ActionChangeToggleValue)},
         {"Change Slider Value", typeof(ActionChangeSliderValue)},
+        {"Change Limit Value", typeof(ActionChangeLimitValue)},
         {"Delay", typeof(ActionDelay)},
         {"Press Key", typeof(ActionPressKey)}
       };

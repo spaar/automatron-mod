@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Action.cs" />
+    <Compile Include="Actions\ActionChangeLimitValue.cs" />
     <Compile Include="Actions\ActionChangeToggleValue.cs" />
     <Compile Include="Actions\ActionDelay.cs" />
     <Compile Include="Actions\ActionPressKey.cs" />
