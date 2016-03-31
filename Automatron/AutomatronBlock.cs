@@ -10,6 +10,7 @@ namespace spaar.Mods.Automatron
   public class AutomatronBlock : BlockScript
   {
     private MKey activateKey;
+    private MMenu triggerMode;
     private MToggle configureToggle;
 
     private bool configuring = false;
@@ -45,6 +46,11 @@ namespace spaar.Mods.Automatron
     public override void SafeAwake()
     {
       activateKey = AddKey("Activate", "activate", KeyCode.B);
+      triggerMode = AddMenu("triggerMode", 0, new List<string>()
+      {
+        "Trigger: Press",
+        "Trigger: Release"
+      });
       configureToggle = AddToggle("Configure", "configure", false);
       configureToggle.Toggled += Toggled;
     }
@@ -179,7 +185,8 @@ namespace spaar.Mods.Automatron
 
     protected override void OnSimulateUpdate()
     {
-      if (activateKey.IsPressed)
+      if ((triggerMode.Value == 0 && activateKey.IsPressed)
+        || (triggerMode.Value == 1 && activateKey.IsReleased))
       {
         StartCoroutine(TriggerActions());
       }

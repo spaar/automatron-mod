@@ -6,6 +6,8 @@ Configuring an Automatron
 =========================
 The basic principle is that each Automatron has a number of _actions_ which it activates when it is activated itself.
 You can configure an Automatron using the normal block mapper menu. There, you can set a key which activates it and open the configuration window.
+In addition, there is an option that allows you change how the Automatron is activated: By default, it activates when the configured key is first pressed down,
+if you choose the option "Trigger: Release" instead, it will activate when the configured key is released.
 A click on the "Configure" button will open the configuration window. It consists of a list of actions, an "Add Action" button and a "Close" button.
 Note that opening the configuration window will also close the block mapper and temporarily deactivate the block mapper tool.
 When you close the configuration window using the "Close" button, the block mapper will be reopened and the block mapper tool reactivated.
