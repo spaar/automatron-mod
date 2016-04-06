@@ -16,6 +16,8 @@ namespace spaar.Mods.Automatron.Actions
 
     private void UpdateTitle()
     {
+      if (Game.IsSimulating) return;
+
       var block = GetBlock();
       if (block == null)
       {

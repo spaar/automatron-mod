@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using spaar.ModLoader;
 using spaar.ModLoader.UI;
 using Selectors;
 using UnityEngine;
@@ -23,6 +24,8 @@ namespace spaar.Mods.Automatron.Actions
 
     private void UpdateTitle()
     {
+      if (Game.IsSimulating) return;
+
       var block = GetBlock();
       if (block == null)
       {
@@ -40,6 +43,7 @@ namespace spaar.Mods.Automatron.Actions
             + " to " + value.ToString("F");
         }
       }
+ 
     }
 
     public override void Trigger()
