@@ -54,7 +54,7 @@ namespace spaar.Mods.Automatron
     {
       LoadBlock(automatronBlock);
 
-      ActionPressKey.StartKeySim();
+      ActionPressKey.StartKeySim(false);
     }
 
     public override void OnUnload()

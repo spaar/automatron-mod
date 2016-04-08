@@ -8,6 +8,7 @@ using spaar.ModLoader.UI;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace spaar.Mods.Automatron.Actions
 {
@@ -28,13 +29,36 @@ namespace spaar.Mods.Automatron.Actions
     // 0 = Press, 1 = Hold, 2 = Release
     private int mode = -1;
 
-    public static void StartKeySim()
+    public static void StartKeySim(bool searchJavaw)
     {
       try
       {
         var simulatorJar = Application.dataPath + "/Mods/KeySimulator.jar";
         keySim = new Process();
-        keySim.StartInfo.FileName = "javaw";
+        if (searchJavaw)
+        {
+          var pathEnv = Environment.GetEnvironmentVariable("PATH");
+          var paths = pathEnv.Split(';');
+          var javaPath = paths.Select(x => Path.Combine(x, "javaw.exe"))
+                              .Where(x => File.Exists(x))
+                              .FirstOrDefault();
+          if (string.IsNullOrEmpty(javaPath))
+          {
+            Debug.Log("Can't start Key Simulator due to not finding Java.");
+            hasError = true;
+            error = "Could not start Key Simulator.\nMake sure it and Java are "
+               + "installed correctly.\n"
+               + "Further information is printed in the console.";
+            return;
+          }
+          else
+          {
+            keySim.StartInfo.FileName = javaPath;
+          }
+        }
+        else {
+          keySim.StartInfo.FileName = "javaw";
+        }
         keySim.StartInfo.Arguments = "-jar \"" + simulatorJar + "\"";
         keySim.StartInfo.UseShellExecute = false;
         keySim.StartInfo.RedirectStandardInput = true;
@@ -53,6 +77,20 @@ namespace spaar.Mods.Automatron.Actions
           throw new Exception(
             "KeySimulator did not respond with proper ok message.");
         }
+      }
+      catch (Win32Exception e)
+      {
+        if (e.NativeErrorCode == 2) // File not found
+        {
+          StartKeySim(true);
+          return;
+        }
+        hasError = true;
+        error = "Could not start Key Simulator.\nMake sure it and Java are " +
+          "installed correctly.\nFurther information is printed in the console.";
+        Debug.LogException(e);
+        Debug.Log("Native Error Code: " + e.NativeErrorCode);
+        Debug.Log("Message: " + e.Message);
       }
       catch (Exception e)
       {
