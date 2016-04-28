@@ -54,11 +54,12 @@ namespace spaar.Mods.Automatron
     {
       LoadBlock(automatronBlock);
 
-      ActionPressKey.StartKeySim(false);
+      ActionPressKey.StartKeySim();
     }
 
     public override void OnUnload()
     {
+      Configuration.Save();
       ActionPressKey.StopKeySim();
     }
   }

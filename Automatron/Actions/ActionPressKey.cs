@@ -29,36 +29,13 @@ namespace spaar.Mods.Automatron.Actions
     // 0 = Press, 1 = Hold, 2 = Release
     private int mode = -1;
 
-    public static void StartKeySim(bool searchJavaw)
+    public static void StartKeySim()
     {
       try
       {
         var simulatorJar = Application.dataPath + "/Mods/KeySimulator.jar";
         keySim = new Process();
-        if (searchJavaw)
-        {
-          var pathEnv = Environment.GetEnvironmentVariable("PATH");
-          var paths = pathEnv.Split(';');
-          var javaPath = paths.Select(x => Path.Combine(x, "javaw.exe"))
-                              .Where(x => File.Exists(x))
-                              .FirstOrDefault();
-          if (string.IsNullOrEmpty(javaPath))
-          {
-            Debug.Log("Can't start Key Simulator due to not finding Java.");
-            hasError = true;
-            error = "Could not start Key Simulator.\nMake sure it and Java are "
-               + "installed correctly.\n"
-               + "Further information is printed in the console.";
-            return;
-          }
-          else
-          {
-            keySim.StartInfo.FileName = javaPath;
-          }
-        }
-        else {
-          keySim.StartInfo.FileName = "javaw";
-        }
+        keySim.StartInfo.FileName = Configuration.GetString("javawPath", "javaw");
         keySim.StartInfo.Arguments = "-jar \"" + simulatorJar + "\"";
         keySim.StartInfo.UseShellExecute = false;
         keySim.StartInfo.RedirectStandardInput = true;
@@ -80,11 +57,6 @@ namespace spaar.Mods.Automatron.Actions
       }
       catch (Win32Exception e)
       {
-        if (e.NativeErrorCode == 2) // File not found
-        {
-          StartKeySim(true);
-          return;
-        }
         hasError = true;
         error = "Could not start Key Simulator.\nMake sure it and Java are " +
           "installed correctly.\nFurther information is printed in the console.";
