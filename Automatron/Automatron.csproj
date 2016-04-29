@@ -74,6 +74,7 @@
     <Compile Include="Actions\BlockSpecificAction.cs" />
     <Compile Include="Actions\ActionChangeSliderValue.cs" />
     <Compile Include="AutomatronBlock.cs" />
+    <Compile Include="KeySimulatorHeartbeat.cs" />
     <Compile Include="Mod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

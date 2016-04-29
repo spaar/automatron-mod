@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using System.Linq;
 using spaar.ModLoader;
 using spaar.ModLoader.UI;
 using UnityEngine;
@@ -54,6 +53,11 @@ namespace spaar.Mods.Automatron.Actions
           throw new Exception(
             "KeySimulator did not respond with proper ok message.");
         }
+
+        var go = new GameObject("Automatron Key Simulator Hearbeat");
+        var heartbeat = go.AddComponent<KeySimulatorHeartbeat>();
+        heartbeat.keySimInput = keySimInput;
+        heartbeat.keySimOutput = keySimOutput;
       }
       catch (Win32Exception e)
       {

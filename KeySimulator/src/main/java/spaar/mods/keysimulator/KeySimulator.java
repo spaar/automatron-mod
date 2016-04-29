@@ -2,17 +2,25 @@ package spaar.mods.keysimulator;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Dictionary;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class KeySimulator {
 
   public static Map<String, Integer> SpecialKeys = new HashMap<String, Integer>();
+
+  private static int exceptionCount = 0;
+  private static final int maxExceptionCount = 5;
 
   static {
     SpecialKeys.put("alt", KeyEvent.VK_ALT);
@@ -34,15 +42,18 @@ public class KeySimulator {
     SpecialKeys.put("numpad 9", KeyEvent.VK_NUMPAD9);
   }
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
     try {
+      long timeout = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(5);
       Robot robot = new Robot();
       Scanner in = new Scanner(new InputStreamReader(System.in, StandardCharsets.US_ASCII));
       PrintStream out = new PrintStream(System.out, false, StandardCharsets.US_ASCII.name());
 
       while (true) {
         while (!in.hasNextLine()) {
-          ;
+          if (System.currentTimeMillis() > timeout) {
+            System.exit(1);
+          }
         }
 
         String input = in.nextLine();
@@ -50,6 +61,11 @@ public class KeySimulator {
         if (input.equals("init")) {
           out.println("ok");
           out.flush();
+          continue;
+        }
+
+        if (input.equals("ping")) {
+          timeout = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(5);
           continue;
         }
 
@@ -90,7 +106,12 @@ public class KeySimulator {
         }
       }
     } catch (Exception e) {
-      main(args);
+      exceptionCount++;
+      if (exceptionCount > maxExceptionCount) {
+        System.exit(1);
+      } else {
+        main(args);
+      }
     }
   }
 
