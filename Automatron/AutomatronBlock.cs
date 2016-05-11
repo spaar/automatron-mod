@@ -9,25 +9,25 @@ namespace spaar.Mods.Automatron
 {
   public class AutomatronBlock : BlockScript
   {
-    private MKey activateKey;
-    private MMenu triggerMode;
-    private MToggle configureToggle;
+    protected MKey activateKey;
+    protected MMenu triggerMode;
+    protected MToggle configureToggle;
 
-    private bool configuring = false;
-    private bool configuringAction = false;
+    protected bool configuring = false;
+    protected bool configuringAction = false;
 
-    private Rect windowRect = new Rect(500, 200, 700, 500);
-    private int windowId = Util.GetWindowID();
-    private Vector2 scrollPos = Vector2.zero;
+    protected Rect windowRect = new Rect(500, 200, 700, 500);
+    protected int windowId = Util.GetWindowID();
+    protected Vector2 scrollPos = Vector2.zero;
 
-    private Rect addActionWindowRect = new Rect(1200, 200, 200, 300);
-    private int addActionWindowId = Util.GetWindowID();
-    private bool addingAction = false;
+    protected Rect addActionWindowRect = new Rect(1200, 200, 200, 300);
+    protected int addActionWindowId = Util.GetWindowID();
+    protected bool addingAction = false;
 
-    private bool hidden = false;
+    protected bool hidden = false;
 
-    private List<Action> actions = new List<Action>();
-    private bool running = false;
+    protected List<Action> actions = new List<Action>();
+    protected bool running = false;
 
     private delegate System.Collections.IEnumerator RotationFunction(Gear gear);
     private class Gear
@@ -163,7 +163,7 @@ namespace spaar.Mods.Automatron
       return t;
     }
 
-    private void Toggled(bool active)
+    protected virtual void Toggled(bool active)
     {
       configuring = active;
 
@@ -192,7 +192,7 @@ namespace spaar.Mods.Automatron
       }
     }
 
-    protected System.Collections.IEnumerator TriggerActions()
+    protected virtual System.Collections.IEnumerator TriggerActions()
     {
       if (running)
       {
@@ -272,7 +272,7 @@ namespace spaar.Mods.Automatron
       stream.Write("automatron-actions", SerializeActions());
     }
 
-    private string SerializeActions()
+    protected virtual string SerializeActions()
     {
       var data = "";
       foreach (var action in actions)
@@ -286,7 +286,7 @@ namespace spaar.Mods.Automatron
       return data;
     }
 
-    private void DeserializeActions(string data)
+    protected virtual void DeserializeActions(string data)
     {
       var serializedActions = data.Split(';');
       foreach (var serializedAction in serializedActions)
@@ -296,7 +296,7 @@ namespace spaar.Mods.Automatron
       }
     }
 
-    private void OnGUI()
+    protected virtual void OnGUI()
     {
       if (!configuring) return;
       if (AddPiece.isSimulating) return;
@@ -324,7 +324,7 @@ namespace spaar.Mods.Automatron
       }
     }
 
-    private void DoWindow(int id)
+    protected virtual void DoWindow(int id)
     {
       scrollPos = GUILayout.BeginScrollView(scrollPos);
 
@@ -393,7 +393,7 @@ namespace spaar.Mods.Automatron
       GUI.DragWindow();
     }
 
-    private void DoAddActionWindow(int id)
+    protected virtual void DoAddActionWindow(int id)
     {
       GUILayout.Label("Choose type:");
       foreach (var key in Action.ActionTypes.Keys)
@@ -419,12 +419,12 @@ namespace spaar.Mods.Automatron
       GUI.DragWindow();
     }
 
-    private void ConfigureActionDone()
+    protected virtual void ConfigureActionDone()
     {
       configuringAction = false;
     }
 
-    private void HideGUI(bool hide)
+    protected virtual void HideGUI(bool hide)
     {
       hidden = hide;
     }
