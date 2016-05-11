@@ -1,3 +1,9 @@
+1.1.1
+=====
+- Add configuration option to specify path to Java installation
+- Prevent lingering key simulator processes
+- Make a lot of variables and methods inside the AutomatronBlock class protected instead of private to facilitate other blocks being built upon the Automatron
+
 1.1.0
 =====
 - Add Change Limit Value action
