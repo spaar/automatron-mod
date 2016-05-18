@@ -8,7 +8,7 @@ namespace spaar.Mods.Automatron.Actions
   {
     public override string Title { get; set; } = "Delay";
 
-    public int count = 0;
+    public float count = 0;
     public bool secondsMode = true;
     private string textFieldText = "";
 
@@ -16,7 +16,7 @@ namespace spaar.Mods.Automatron.Actions
     {
       base.Create(cb, hideCb);
 
-      textFieldText = count.ToString();
+      textFieldText = count.ToString("0.00");
     }
 
     private void UpdateTitle()
@@ -34,24 +34,24 @@ namespace spaar.Mods.Automatron.Actions
     {
       GUILayout.Label("Delay:");
       float newValue = GUILayout.HorizontalSlider(count, 0f, 10f);
-      if (count != (int)Math.Round(newValue))
+      if (count != newValue)
       {
-        count = (int)Math.Round(newValue);
-        textFieldText = count.ToString();
+        count = newValue;
+        textFieldText = count.ToString("0.00");
         UpdateTitle();
       }
       textFieldText = GUILayout.TextField(textFieldText);
       if (Event.current.isKey && Event.current.keyCode == KeyCode.Return)
       {
-        int newVal;
-        if (int.TryParse(textFieldText, out newVal))
+        float newVal;
+        if (float.TryParse(textFieldText, out newVal))
         {
           count = newVal;
           UpdateTitle();
         }
         else
         {
-          textFieldText = count.ToString();
+          textFieldText = count.ToString("0.00");
           UpdateTitle();
         }
       }
@@ -112,7 +112,7 @@ namespace spaar.Mods.Automatron.Actions
         switch (key)
         {
           case "count":
-            count = int.Parse(val);
+            count = float.Parse(val);
             break;
           case "secondsMode":
             secondsMode = bool.Parse(val);
@@ -120,7 +120,7 @@ namespace spaar.Mods.Automatron.Actions
         }
       }
 
-      textFieldText = count.ToString();
+      textFieldText = count.ToString("0.00");
       UpdateTitle();
     }
   }
