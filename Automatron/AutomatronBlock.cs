@@ -70,8 +70,8 @@ namespace spaar.Mods.Automatron
 
     protected override void BlockPlaced()
     {
-      var gearVis = Game.MachineObjectTracker
-        .AllPrefabs[(int)Prefab.CogMediumPowered].transform.FindChild("Vis");
+      var gearVis = PrefabMaster.BlockPrefabs[(int)Prefab.CogMediumPowered]
+        .gameObject.transform.FindChild("Vis");
       gearMesh = gearVis.GetComponent<MeshFilter>().mesh;
       gearMaterial = gearVis.GetComponent<MeshRenderer>().material;
 

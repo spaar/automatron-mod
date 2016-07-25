@@ -14,9 +14,9 @@ namespace spaar.Mods.Automatron
     public override string DisplayName { get; } = "Automatron";
     public override string Author { get; } = "spaar";
 
-    public override Version Version { get; } = new Version(1, 1, 1);
+    public override Version Version { get; } = new Version(1, 1, 2);
     public override string VersionExtra { get; } = "";
-    public override string BesiegeVersion { get; } = "v0.27";
+    public override string BesiegeVersion { get; } = "v0.3";
 
     public override bool CanBeUnloaded { get; } = false;
     public override bool Preload { get; } = false;
@@ -32,8 +32,8 @@ namespace spaar.Mods.Automatron
             new Vector3(180f, 180f, 0f)))
       })
       .IconOffset(new Icon(
-        new Vector3(1.3f, 1.3f, 1.3f),
-        new Vector3(-0.1f, 0f, 0f),
+        new Vector3(1.0f, 1.0f, 1.0f),
+        new Vector3(0.0f, 0f, 0f),
         new Vector3(360f, 70f, 300f)))
       .Components(new[] { typeof(AutomatronBlock) })
       .Properties(new BlockProperties().SearchKeywords(new[] { "Automatron", "Automation" }))
