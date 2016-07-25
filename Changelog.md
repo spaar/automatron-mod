@@ -1,3 +1,8 @@
+1.1.2
+=====
+- Update for Besiege v0.3 compatibility
+- Enable fractions of seconds in ActionDelay
+
 1.1.1
 =====
 - Add configuration option to specify path to Java installation
