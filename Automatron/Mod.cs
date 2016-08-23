@@ -14,7 +14,7 @@ namespace spaar.Mods.Automatron
     public override string DisplayName { get; } = "Automatron";
     public override string Author { get; } = "spaar";
 
-    public override Version Version { get; } = new Version(1, 1, 2);
+    public override Version Version { get; } = new Version(1, 1, 3);
     public override string VersionExtra { get; } = "";
     public override string BesiegeVersion { get; } = "v0.32";
 
