@@ -60,10 +60,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(BESIEGE_LOCATION)Besiege_Data\Mods\SpaarModLoader.dll</HintPath>
     </Reference>
-    <Reference Include="BlockLoader, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(BESIEGE_LOCATION)Besiege_Data\Mods\BlockLoader.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Action.cs" />

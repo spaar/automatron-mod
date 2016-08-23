@@ -299,7 +299,7 @@ namespace spaar.Mods.Automatron
     protected virtual void OnGUI()
     {
       if (!configuring) return;
-      if (AddPiece.isSimulating) return;
+      if (Game.IsSimulating) return;
 
       GUI.skin = ModGUI.Skin;
 
