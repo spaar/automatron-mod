@@ -1,3 +1,7 @@
+1.1.5
+=====
+- Update for Besiege v0.45 compatibility
+
 1.1.2
 =====
 - Update for Besiege v0.3 compatibility
