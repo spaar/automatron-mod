@@ -61,7 +61,8 @@ namespace spaar.Mods.Automatron
     protected ConfigureDoneCallback currentCallback;
     protected HideGUICallback currentHideCallback;
 
-    public abstract void Trigger();
+    public virtual void Trigger() { }
+    public virtual void Trigger(AutomatronBlock automatron) { }
     public virtual void Update() { }
 
     public abstract string Title { get; set; }

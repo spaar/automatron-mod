@@ -9,6 +9,9 @@ namespace spaar.Mods.Automatron
 {
   public class AutomatronBlock : BlockScript
   {
+    public int DEBUG_height_constant = 85;
+    public int DEBUG_height_peraction = 35;
+
     protected MKey activateKey;
     protected MMenu triggerMode;
     protected MToggle configureToggle;
@@ -226,6 +229,7 @@ namespace spaar.Mods.Automatron
         else
         {
           action.Trigger();
+          action.Trigger(this);
         }
       }
 
@@ -310,6 +314,7 @@ namespace spaar.Mods.Automatron
 
         if (addingAction)
         {
+          addActionWindowRect.height = DEBUG_height_constant + DEBUG_height_peraction * (Action.ActionTypes.Count + 1);
           addActionWindowRect = GUI.Window(addActionWindowId,
             addActionWindowRect, DoAddActionWindow, "Add Action");
         }
