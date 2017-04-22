@@ -1,3 +1,8 @@
+1.1.6
+=====
+- Add `Action.Trigger(AutomatronBlock)` overload
+- Make the add action window scale dynamically, so it's properly possible to add more from inside other mods
+
 1.1.5
 =====
 - Update for Besiege v0.45 compatibility
