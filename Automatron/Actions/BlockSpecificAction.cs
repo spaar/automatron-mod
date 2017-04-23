@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace spaar.Mods.Automatron.Actions
 {
+  public delegate void OnBlockSelected(BlockBehaviour block);
+
   public abstract class BlockSpecificAction : Action
   {
     protected Guid block;
@@ -12,6 +14,8 @@ namespace spaar.Mods.Automatron.Actions
     private Rect selectingInfoRect = new Rect(200, 800, 500, 100);
     private int selectingInfoId = Util.GetWindowID();
 
+    protected event OnBlockSelected OnBlockSelected;
+  
     protected BlockBehaviour GetBlock()
     {
       for (int i = 0; i < Machine.Active().BuildingBlocks.Count; i++)
@@ -58,6 +62,8 @@ namespace spaar.Mods.Automatron.Actions
 
               selectingBlock = false;
               Hide(false);
+
+              OnBlockSelected?.Invoke(GetBlock());
             }
           }
         }
