@@ -263,7 +263,14 @@ namespace spaar.Mods.Automatron
     {
       LoadMapperValues(stream);
 
-      if (stream.HasKey("automatron-actions"))
+      // "bmt-" prefix is necessary to enable copying&pasting of actions, keys that don't have it are deleted upon copying
+      if (stream.HasKey("bmt-automatron-actions"))
+      {
+        DeserializeActions(stream.ReadString("bmt-automatron-actions"));
+      }
+      // Since earlier versions of the Automatron didn't use the prefix, also check for the presence of the key without
+      // in order to preserve backwards-compatibility
+      else if (stream.HasKey("automatron-actions"))
       {
         DeserializeActions(stream.ReadString("automatron-actions"));
       }
@@ -273,7 +280,7 @@ namespace spaar.Mods.Automatron
     {
       SaveMapperValues(stream);
 
-      stream.Write("automatron-actions", SerializeActions());
+      stream.Write("bmt-automatron-actions", SerializeActions());
     }
 
     protected virtual string SerializeActions()
