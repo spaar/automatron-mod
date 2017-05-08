@@ -43,7 +43,7 @@ namespace spaar.Mods.Automatron.Actions
             + " to " + value.ToString("F");
         }
       }
- 
+
     }
 
     public override void Trigger()
@@ -59,6 +59,12 @@ namespace spaar.Mods.Automatron.Actions
       }
 
       mSlider.Value = value;
+
+      if (GetBlock() is BallastWeightController && mSlider.Key == "mass")
+      {
+        // Ballasts don't update their weight while simulating by default
+        GetBlock().Rigidbody.mass = value;
+      }
     }
 
     protected override void DoWindow(int id)
