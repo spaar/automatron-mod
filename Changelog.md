@@ -1,3 +1,10 @@
+1.1.7
+=====
+- Add BlockSpecificAction.OnBlockSelected
+- Make actions compatible with copy&pasting in the keymapper settings
+- Add ability to change ballast mass
+- Fix actions being duplicated by UndoSystem
+
 1.1.6
 =====
 - Add `Action.Trigger(AutomatronBlock)` overload
