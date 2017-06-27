@@ -264,15 +264,26 @@ namespace spaar.Mods.Automatron
       LoadMapperValues(stream);
 
       // "bmt-" prefix is necessary to enable copying&pasting of actions, keys that don't have it are deleted upon copying
-      if (stream.HasKey("bmt-automatron-actions"))
+      // String can be empty when it shouldn't be because of a bug in Undosystem, so ignore that.
+      if (stream.HasKey("bmt-automatron-actions") && stream.ReadString("bmt-automatron-actions") != "")
       {
+        // Clear actions so they don't get duplicated if OnLoad is called by the UndoSystem
+        actions.Clear();
+
         DeserializeActions(stream.ReadString("bmt-automatron-actions"));
       }
       // Since earlier versions of the Automatron didn't use the prefix, also check for the presence of the key without
       // in order to preserve backwards-compatibility
-      else if (stream.HasKey("automatron-actions"))
+      else if (stream.HasKey("automatron-actions") && stream.ReadString("automatron-actions") != "")
       {
+        // Clear actions so they don't get duplicated if OnLoad is called by the UndoSystem
+        actions.Clear();
+
         DeserializeActions(stream.ReadString("automatron-actions"));
+      }
+      else
+      {
+        Debug.Log("OnLoad called without action data.");
       }
     }
 
