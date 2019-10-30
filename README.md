@@ -1,5 +1,9 @@
 Automatron for Besiege
 ======================
+
+**Deprecated:** This mod is not straightforward to port to the newer official mod loader and new Besiege game versions, and a lack of time has prevented serious work on updating it so far. As such, it is only useful in old versions of Besiege currently, along with the old mod loader.
+If anybody feels like having a shot at making a version of this for the new mod loader, please feel free to do so! The license allows you to build on the existing code. If you do, I would love to hear about it!
+
 The Automatron is a block mod for Besiege, made by me, spaar.
 It adds a single new block, the Automatron, which is a block you can use to automate processes in your machine.
 It can activate blocks or change their settings, on a set schedule, with a single key press.
